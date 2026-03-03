@@ -1384,32 +1384,38 @@ elif section == "Part 3: Application Automations & LLM":
             st.markdown("""
             ### API Key Connector (Generic REST — Any LLM)
 
-            For LLMs without a dedicated connector (Anthropic Claude direct, Cohere, custom endpoints):
+            For LLMs without a dedicated connector (Google Gemini, Cohere, custom endpoints):
 
             | Setting | Description |
             |---------|-------------|
-            | **Base URL** | LLM provider API base (e.g., `https://api.anthropic.com`) |
+            | **Base URL** | LLM provider API base (e.g., `https://generativelanguage.googleapis.com`) |
             | **HTTP Method** | GET, POST, DELETE, PATCH, PUT |
             | **Headers** | JSON for auth headers (e.g., `x-api-key`, `Authorization: Bearer`) |
             | **Request Body** | JSON payload for the chat completion request |
             | **Query Parameters** | JSON object appended to the URL |
 
-            **Example: Calling Anthropic Claude via API Key Connector**
+            **Example: Calling Google Gemini via API Key Connector**
             ```json
             {
-              "Base URL": "https://api.anthropic.com/v1/messages",
+              "Base URL": "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent",
               "Method": "POST",
               "Headers": {
-                "x-api-key": "sk-ant-...",
-                "anthropic-version": "2023-06-01",
                 "content-type": "application/json"
               },
+              "Query Parameters": {
+                "key": "AIzaSy..."
+              },
               "Body": {
-                "model": "claude-sonnet-4-20250514",
-                "max_tokens": 1024,
-                "messages": [
-                  {"role": "user", "content": "Analyze this HR data: ..."}
-                ]
+                "contents": [
+                  {
+                    "parts": [
+                      {"text": "Analyze this HR data: ..."}
+                    ]
+                  }
+                ],
+                "generationConfig": {
+                  "maxOutputTokens": 1024
+                }
               }
             }
             ```
