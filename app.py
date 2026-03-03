@@ -10,6 +10,7 @@ All content is Qlik Cloud (SaaS) focused — no Qlik Sense on-premises content.
 
 import streamlit as st
 from streamlit_mermaid import st_mermaid
+from pathlib import Path
 
 # ---------------------------------------------------------------------------
 # Page config
@@ -20,6 +21,13 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded",
 )
+
+# ---------------------------------------------------------------------------
+# Optional logo — place a logo.png in the logo/ directory
+# ---------------------------------------------------------------------------
+_logo_path = Path(__file__).parent / "logo" / "logo.png"
+if _logo_path.exists():
+    st.image(str(_logo_path), width=220)
 
 # ---------------------------------------------------------------------------
 # Custom CSS
