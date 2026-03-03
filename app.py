@@ -11,6 +11,7 @@ All content is Qlik Cloud (SaaS) focused — no Qlik Sense on-premises content.
 import streamlit as st
 from streamlit_mermaid import st_mermaid
 from pathlib import Path
+from pdf_export import generate_pdf
 
 # ---------------------------------------------------------------------------
 # Page config
@@ -349,6 +350,7 @@ def mermaid_diagram(code: str):
 if section == "Home":
     st.title("Qlik Cloud AI/ML Capabilities")
     st.subheader("A Comprehensive Reference for People Analytics Teams")
+    st.markdown("*Created by Scott Severance*")
 
     exec_summary("Application Overview", [
         "Covers <b>Qlik Answers</b> (agentic analytics with structured + unstructured data) — GA Feb 2026",
@@ -1972,6 +1974,22 @@ elif section == "Part 4: Qlik Cloud AI/ML Ecosystem":
         - [Qlik Why AI](https://www.qlik.com/us/why-qlik-for-ai)
         """)
 
+
+# ---------------------------------------------------------------------------
+# PDF Export
+# ---------------------------------------------------------------------------
+st.sidebar.markdown("---")
+@st.cache_data
+def _cached_pdf():
+    return generate_pdf()
+
+st.sidebar.download_button(
+    label="Download Full PDF",
+    data=_cached_pdf(),
+    file_name="Qlik_Cloud_AI_ML_Capabilities.pdf",
+    mime="application/pdf",
+    use_container_width=True,
+)
 
 # ---------------------------------------------------------------------------
 # Footer
