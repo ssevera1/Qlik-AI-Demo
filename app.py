@@ -9,6 +9,7 @@ All content is Qlik Cloud (SaaS) focused — no Qlik Sense on-premises content.
 """
 
 import streamlit as st
+from streamlit_mermaid import st_mermaid
 
 # ---------------------------------------------------------------------------
 # Page config
@@ -173,8 +174,8 @@ def demo_placeholder(label: str, link: str = ""):
 
 
 def mermaid_diagram(code: str):
-    """Render a Mermaid diagram using streamlit code block (fallback)."""
-    st.code(code, language="mermaid")
+    """Render a Mermaid diagram using the bundled streamlit-mermaid component."""
+    st_mermaid(code, height="auto")
 
 
 # =========================================================================
