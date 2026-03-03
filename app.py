@@ -1984,4 +1984,3 @@ st.sidebar.markdown("""
 - [Qlik Community](https://community.qlik.com/)
 - [Qlik Press Room](https://www.qlik.com/us/news/company/press-room/)
 """)
-st.sidebar.markdown("*Built with Streamlit — Qlik Cloud focused (no on-premises content)*")
