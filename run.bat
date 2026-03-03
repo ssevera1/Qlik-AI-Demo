@@ -21,6 +21,9 @@ if %errorlevel% neq 0 (
     echo.
 )
 
+:: Disable all Streamlit telemetry
+set STREAMLIT_BROWSER_GATHER_USAGE_STATS=false
+
 :: Run the app
 echo Starting Streamlit app...
 streamlit run app.py

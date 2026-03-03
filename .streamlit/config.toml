@@ -1,0 +1,11 @@
+[browser]
+# Disable Streamlit from collecting usage statistics
+gatherUsageStats = false
+
+[server]
+# Disable file watcher polling (reduces background activity)
+fileWatcherType = "none"
+
+[runner]
+# Disable magic commands
+magicEnabled = false

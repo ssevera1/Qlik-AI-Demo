@@ -18,6 +18,9 @@ if ! python3 -c "import streamlit" &> /dev/null; then
     echo
 fi
 
+# Disable all Streamlit telemetry
+export STREAMLIT_BROWSER_GATHER_USAGE_STATS=false
+
 # Run the app
 echo "Starting Streamlit app..."
 streamlit run app.py
