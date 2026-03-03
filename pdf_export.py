@@ -103,6 +103,28 @@ def _bullet(pdf: _QlikPDF, text: str):
     pdf.multi_cell(186, 5, f"  -  {text}")
 
 
+def _link(pdf: _QlikPDF, label: str, url: str):
+    """Render a clickable link as a bullet item."""
+    pdf.set_font("Helvetica", "", 8)
+    pdf.set_text_color(*_BLUE)
+    pdf.set_x(14)
+    pdf.cell(4, 5, "-  ")
+    pdf.cell(0, 5, label, link=url, new_x="LMARGIN", new_y="NEXT")
+    pdf.set_text_color(*_BLACK)
+
+
+def _links_section(pdf: _QlikPDF, title: str, links: list[tuple[str, str]]):
+    """Render a sources/references block with clickable links."""
+    pdf.ln(2)
+    pdf.set_font("Helvetica", "B", 9)
+    pdf.set_text_color(*_MUTED)
+    pdf.cell(0, 6, title, new_x="LMARGIN", new_y="NEXT")
+    for label, url in links:
+        _link(pdf, label, url)
+    pdf.set_text_color(*_BLACK)
+    pdf.ln(3)
+
+
 def _table(pdf: _QlikPDF, headers: list[str], rows: list[list[str]],
            col_widths: list[int] | None = None):
     """Simple bordered table."""
@@ -209,6 +231,14 @@ def _build_home(pdf: _QlikPDF):
         ["Feb 2026", "Qlik Answers agentic GA + MCP Server GA"],
     ], [35, 155])
 
+    _links_section(pdf, "Quick Links", [
+        ("Qlik Answers Product Page", "https://www.qlik.com/us/products/qlik-answers"),
+        ("Qlik Predict Documentation", "https://help.qlik.com/en-US/cloud-services/Subsystems/Hub/Content/Sense_Hub/AutoML/home-automl.htm"),
+        ("Qlik Automate Product Page", "https://www.qlik.com/us/products/qlik-automate"),
+        ("Qlik Cloud Help", "https://help.qlik.com/en-US/cloud-services/"),
+        ("Qlik Developer Portal", "https://qlik.dev/"),
+    ])
+
 
 def _build_part1(pdf: _QlikPDF):
     _add_part_title(pdf, "Part 1: Qlik Answers - Agentic Analytics with Structured Data")
@@ -314,6 +344,17 @@ def _build_part1(pdf: _QlikPDF):
 
     _body(pdf, "Migration Warning: If you have existing analyses relying on business logic settings (Behaviors, Hierarchies, Calendar periods), you cannot modify these after enabling Qlik Answers. Plan your migration carefully.")
 
+    _links_section(pdf, "Sources & References", [
+        ("Qlik GA Press Release (Feb 2026)", "https://www.businesswire.com/news/home/20260210837577/en/Qlik-Brings-Agentic-Analytics-to-General-Availability-and-Launches-MCP-Server-for-Third-Party-Assistants"),
+        ("Qlik Answers - Qlik Cloud Help", "https://help.qlik.com/en-US/cloud-services/Subsystems/Hub/Content/Sense_Hub/QlikAnswers/Qlik-Answers.htm"),
+        ("Qlik Agentic AI Vision Blog", "https://www.qlik.com/blog/a-vision-for-the-future-qliks-new-agentic-ai-experience"),
+        ("Enabling Cross-Region Data Processing", "https://help.qlik.com/en-US/cloud-services/Subsystems/Hub/Content/Sense_Hub/Admin/cross-region-data-processing.htm"),
+        ("Qlik Answers Access and Permissions", "https://help.qlik.com/en-US/cloud-services/Subsystems/Hub/Content/Sense_Hub/QlikAnswers/qlik-answers-permissions.htm"),
+        ("Deploying and Administering Qlik Answers", "https://help.qlik.com/en-US/cloud-services/Subsystems/Hub/Content/Sense_Hub/QlikAnswers/administering-qlik-answers.htm"),
+        ("Qlik Answers Product Page", "https://www.qlik.com/us/products/qlik-answers"),
+        ("Qlik MCP Community Video", "https://community.qlik.com/t5/Integration-Extension-APIs/Qlik-Cloud-Development-with-Claude-Desktop-and-MCP-Servers-Video/td-p/2535891"),
+    ])
+
 
 def _build_part2(pdf: _QlikPDF):
     _add_part_title(pdf, "Part 2: Qlik Predict - Automated Machine Learning")
@@ -415,6 +456,15 @@ def _build_part2(pdf: _QlikPDF):
     _table(pdf, ["Use Case", "Problem Type"],
            [[uc[0], uc[1]] for uc in use_cases], [100, 90])
 
+    _links_section(pdf, "Sources & References", [
+        ("Qlik Predict Tutorial", "https://help.qlik.com/en-US/cloud-services/Subsystems/Hub/Content/Sense_Hub/AutoML/tutorial-machine-learning.htm"),
+        ("Request a Qlik Predict Demo", "https://www.qlik.com/us/contact-us/demo-request-predict"),
+        ("Tech Field Day Demo Video (June 2024)", "https://techfieldday.com/video/qlik-self-service-ai-demo/"),
+        ("Community Sample Data", "https://community.qlik.com/t5/Qlik-Predict/Qlik-AutoML-on-Qlik-Cloud-sample-data/td-p/1966212"),
+        ("Multivariate Time Series Blog", "https://www.datavoyagers.net/post/beyond-the-event-horizon-multivariate-time-series-with-qlik-predict"),
+        ("Real-Time Predictions Guide", "https://help.qlik.com/en-US/cloud-services/Subsystems/Hub/Content/Sense_Hub/AutoML/creating-real-time-predictions.htm"),
+    ])
+
 
 def _build_part3(pdf: _QlikPDF):
     _add_part_title(pdf, "Part 3: Application Automations & External LLM Integration")
@@ -498,6 +548,14 @@ def _build_part3(pdf: _QlikPDF):
         ["Qlik MCP Server", "Claude, ChatGPT, custom", "External AI initiates", "Exposing Qlik to AI"],
     ], [45, 50, 45, 50])
 
+    _links_section(pdf, "Sources & References", [
+        ("Interactive OpenAI Example App", "https://help.qlik.com/en-US/cloud-services/Subsystems/Hub/Content/Sense_Hub/LoadData/ac-openai-tutorial-example-interactive.htm"),
+        ("OpenAI Analytics Connector Tutorial", "https://help.qlik.com/en-US/cloud-services/Subsystems/Hub/Content/Sense_Hub/LoadData/ac-openai-tutorial.htm"),
+        ("Anthropic (Bedrock) Connection Guide", "https://help.qlik.com/en-US/cloud-services/Subsystems/Hub/Content/Sense_Hub/LoadData/ac-bedrock-anthropic-use.htm"),
+        ("Application Automation Overview Video", "https://help.qlik.com/en-US/video/GBvy1WtF2B9Akf1e564dtv"),
+        ("Automation Trigger Extension (GitHub)", "https://github.com/rileymd88/automation-trigger"),
+    ])
+
 
 def _build_part4(pdf: _QlikPDF):
     _add_part_title(pdf, "Part 4: Qlik Cloud AI/ML Ecosystem")
@@ -579,6 +637,22 @@ def _build_part4(pdf: _QlikPDF):
         ["Global AI Council", "External experts guiding responsible AI (formed Jan 2024)"],
         ["Enterprise MLOps", "Version control, monitoring, retraining, lifecycle management"],
     ], [55, 135])
+
+    _links_section(pdf, "Sources & References", [
+        ("Qlik Trust Score for AI", "https://www.qlik.com/us/news/company/press-room/press-releases/qlik-releases-trust-score-for-ai-in-qlik-talend-cloud"),
+        ("Knowledge Mart Help", "https://help.qlik.com/en-US/cloud-services/Subsystems/Hub/Content/Sense_Hub/DataIntegration/KnowledgeMart/Creating-knowledge-marts.htm"),
+        ("Qlik Open Lakehouse", "https://community.qlik.com/t5/Release-Notes/Qlik-Cloud-Release-Notes-October-2025/ta-p/2532869"),
+        ("Qlik Announces Qlik Staige", "https://www.qlik.com/us/news/company/press-room/press-releases/qlik-announces-qlik-staige"),
+        ("AWS Generative AI Competency", "https://www.qlik.com/us/news/company/press-room/press-releases/qlik-achieves-aws-generative-ai-competency"),
+        ("Qlik AI Specialist Certification", "https://learning.qlik.com/student/page/2537679-qlik-ai-specialist-certification-exam"),
+        ("Qlik Brings Agentic Analytics to GA", "https://www.businesswire.com/news/home/20260210837577/en/Qlik-Brings-Agentic-Analytics-to-General-Availability-and-Launches-MCP-Server-for-Third-Party-Assistants"),
+        ("Qlik Agentic AI", "https://www.qlik.com/us/agentic-ai"),
+        ("Qlik Cloud Analytics", "https://www.qlik.com/us/products/qlik-cloud-analytics"),
+        ("Qlik Augmented Analytics", "https://www.qlik.com/us/products/qlik-augmented-analytics"),
+        ("Qlik Predict", "https://help.qlik.com/en-US/cloud-services/Subsystems/Hub/Content/Sense_Hub/AutoML/home-automl.htm"),
+        ("Qlik MCP Server", "https://www.qlik.com/us/products/model-context-protocol"),
+        ("Qlik Why AI", "https://www.qlik.com/us/why-qlik-for-ai"),
+    ])
 
 
 # ===========================================================================
