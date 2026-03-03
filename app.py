@@ -379,25 +379,25 @@ if section == "Home":
     st.markdown("### Architecture Overview")
     mermaid_diagram("""graph TB
     subgraph "Qlik Cloud Platform"
-        QA[Qlik Answers<br/>Agentic Analytics]
-        QP[Qlik Predict<br/>AutoML]
-        AA[Application Automations<br/>Qlik Automate]
-        AC[Analytic Connections<br/>SSE Connectors]
-        MCP[MCP Server<br/>Third-Party AI]
-        DA[Discovery Agent<br/>Anomaly Detection]
+        QA["Qlik Answers - Agentic Analytics"]
+        QP["Qlik Predict - AutoML"]
+        AA["Application Automations - Qlik Automate"]
+        AC["Analytic Connections - SSE Connectors"]
+        MCP["MCP Server - Third-Party AI"]
+        DA["Discovery Agent - Anomaly Detection"]
     end
 
     subgraph "Data Sources"
-        SD[Structured Data<br/>Qlik Apps]
-        UD[Unstructured Data<br/>PDFs, DOCX, HTML]
-        EXT[External APIs<br/>HRIS, ERP]
+        SD["Structured Data - Qlik Apps"]
+        UD["Unstructured Data - PDFs, DOCX, HTML"]
+        EXT["External APIs - HRIS, ERP"]
     end
 
-    subgraph "External AI/LLMs"
-        OAI[OpenAI GPT]
-        CL[Anthropic Claude]
-        HF[Hugging Face]
-        BED[Amazon Bedrock]
+    subgraph "External AI and LLMs"
+        OAI["OpenAI GPT"]
+        CL["Anthropic Claude"]
+        HF["Hugging Face"]
+        BED["Amazon Bedrock"]
     end
 
     SD --> QA
@@ -867,12 +867,12 @@ elif section == "Part 2: Qlik Predict (ML)":
 
         st.markdown("### End-to-End Workflow")
         mermaid_diagram("""graph LR
-    A[1. Data Loading<br/>CSV, QVD, XLSX] --> B[2. Experiment Creation<br/>Select target column]
-    B --> C[3. Automated Training<br/>Multiple algorithms]
-    C --> D[4. Model Evaluation<br/>SHAP explainability]
-    D --> E[5. Deployment<br/>Model approval]
-    E --> F[6. Predictions<br/>Batch / Real-time / Connector]
-    F --> G[7. Visualization<br/>Qlik Sense dashboards]""")
+    A["1. Data Loading"] --> B["2. Experiment Creation"]
+    B --> C["3. Automated Training"]
+    C --> D["4. Model Evaluation"]
+    D --> E["5. Deployment"]
+    E --> F["6. Predictions"]
+    F --> G["7. Visualization"]""")
 
         st.markdown("""
         ### Step-by-Step Process
@@ -919,21 +919,21 @@ elif section == "Part 2: Qlik Predict (ML)":
         st.markdown("### Deployment Architecture")
         mermaid_diagram("""graph TB
     subgraph "Qlik Cloud"
-        EXP[Experiment<br/>Train Models] --> DEP[ML Deployment<br/>Approved Model]
-        DEP --> BATCH[Batch Predictions<br/>Scheduled / Manual]
-        DEP --> RT[Real-Time API<br/>REST Endpoint]
-        DEP --> CON[Analytics Connector<br/>In-App Load Script]
+        EXP["Experiment - Train Models"] --> DEP["ML Deployment - Approved Model"]
+        DEP --> BATCH["Batch Predictions"]
+        DEP --> RT["Real-Time API"]
+        DEP --> CON["Analytics Connector"]
     end
 
-    BATCH --> QS[Qlik Sense App<br/>Dashboard]
+    BATCH --> QS["Qlik Sense App Dashboard"]
     RT --> QS
     CON --> QS
-    RT --> EXT[External Applications<br/>Custom Integrations]
+    RT --> EXT["External Applications"]
 
     subgraph "Automation"
-        QS --> AUTO[Qlik Automate<br/>Trigger Actions]
-        AUTO --> ALERT[Alerts & Notifications]
-        AUTO --> WB[Write-Back to Sources]
+        QS --> AUTO["Qlik Automate - Trigger Actions"]
+        AUTO --> ALERT["Alerts and Notifications"]
+        AUTO --> WB["Write-Back to Sources"]
     end""")
 
         st.markdown("""
@@ -1326,24 +1326,24 @@ elif section == "Part 3: Application Automations & LLM":
 
         mermaid_diagram("""graph LR
     subgraph "Triggers"
-        BTN[Button in Qlik Sense]
-        WH[Webhook]
-        SCH[Scheduled]
+        BTN["Button in Qlik Sense"]
+        WH["Webhook"]
+        SCH["Scheduled"]
     end
 
     subgraph "Automation Workflow"
-        T[Trigger] --> D1[Get Selections]
-        D1 --> D2[Process Data]
-        D2 --> L1{Condition}
-        L1 -->|Yes| D3[Call External API]
-        L1 -->|No| D4[Log & Skip]
-        D3 --> D5[Process Response]
+        T["Trigger"] --> D1["Get Selections"]
+        D1 --> D2["Process Data"]
+        D2 --> L1{"Condition"}
+        L1 -->|Yes| D3["Call External API"]
+        L1 -->|No| D4["Log and Skip"]
+        D3 --> D5["Process Response"]
     end
 
     subgraph "Outputs"
-        D5 --> WB[Write-Back to Qlik]
-        D5 --> SL[Send to Slack/Teams]
-        D5 --> EM[Send Email]
+        D5 --> WB["Write-Back to Qlik"]
+        D5 --> SL["Send to Slack or Teams"]
+        D5 --> EM["Send Email"]
     end
 
     BTN --> T
@@ -1484,7 +1484,7 @@ elif section == "Part 3: Application Automations & LLM":
     AE-->>QS: Update Text & Image object
     QS-->>User: Display LLM insight for selection
 
-    Note over User,LLM: User clears selection, picks another →<br/>entire flow repeats automatically""")
+    Note over User,LLM: User clears selection and picks another - entire flow repeats automatically""")
 
         st.markdown("""
         ### Key Design Patterns
@@ -1560,22 +1560,22 @@ elif section == "Part 3: Application Automations & LLM":
 
         st.markdown("### Recommended Fallback Decision Flow")
         mermaid_diagram("""graph TD
-    START[User in Qlik Sense App] --> Q1{Standard analytics<br/>question?}
-    Q1 -->|Yes| QA[Qlik Answers<br/>Agentic Analytics]
-    Q1 -->|No| Q2{Need AI-generated<br/>narrative/analysis?}
-    Q2 -->|Yes| AC[Analytic Connection<br/>Chart Expression]
-    Q2 -->|No| Q3{Need multi-step<br/>workflow with AI?}
-    Q3 -->|Yes| AUTO[Button → Application<br/>Automation]
-    Q3 -->|No| Q4{Need to expose data<br/>to external AI?}
-    Q4 -->|Yes| MCP_NODE[Qlik MCP Server]
+    START["User in Qlik Sense App"] --> Q1{"Standard analytics question?"}
+    Q1 -->|Yes| QA["Qlik Answers - Agentic Analytics"]
+    Q1 -->|No| Q2{"Need AI-generated narrative or analysis?"}
+    Q2 -->|Yes| AC["Analytic Connection - Chart Expression"]
+    Q2 -->|No| Q3{"Need multi-step workflow with AI?"}
+    Q3 -->|Yes| AUTO["Button to Application Automation"]
+    Q3 -->|No| Q4{"Need to expose data to external AI?"}
+    Q4 -->|Yes| MCP_NODE["Qlik MCP Server"]
 
-    AC --> LLM1[OpenAI / Azure OpenAI /<br/>Anthropic Bedrock / Hugging Face]
-    AUTO --> LLM2[OpenAI Connector /<br/>API Key Connector - any LLM]
-    MCP_NODE --> LLM3[Claude Desktop /<br/>ChatGPT / Custom Agents]
+    AC --> LLM1["OpenAI, Azure OpenAI, Anthropic Bedrock, Hugging Face"]
+    AUTO --> LLM2["OpenAI Connector, API Key Connector - any LLM"]
+    MCP_NODE --> LLM3["Claude Desktop, ChatGPT, Custom Agents"]
 
-    LLM1 --> OUT1[Display in Text & Image object]
-    LLM2 --> OUT2[Write-back / Slack /<br/>Teams / Email]
-    LLM3 --> OUT3[Insights in external<br/>AI assistant UI]""")
+    LLM1 --> OUT1["Display in Text and Image object"]
+    LLM2 --> OUT2["Write-back, Slack, Teams, Email"]
+    LLM3 --> OUT3["Insights in external AI assistant UI"]""")
 
         st.markdown("""
         ### Design Principles for the Fallback Pattern
@@ -1882,28 +1882,28 @@ elif section == "Part 4: Qlik Cloud AI/ML Ecosystem":
         mermaid_diagram("""graph TB
     subgraph "Qlik Staige Platform"
         subgraph "Data Integration AI"
-            DI[Agentic Data Pipeline Agents]
-            DQ[Data Quality AI]
-            DS[Data Stewardship AI]
+            DI["Agentic Data Pipeline Agents"]
+            DQ["Data Quality AI"]
+            DS["Data Stewardship AI"]
         end
 
         subgraph "Analytics AI"
-            QA[Qlik Answers<br/>Agentic Analytics]
-            QP[Qlik Predict<br/>AutoML]
-            DA[Discovery Agent]
-            IA[Insight Advisor<br/>Augmented Analytics]
+            QA["Qlik Answers - Agentic Analytics"]
+            QP["Qlik Predict - AutoML"]
+            DA["Discovery Agent"]
+            IA["Insight Advisor - Augmented Analytics"]
         end
 
         subgraph "Extensibility"
-            MCP[MCP Server]
-            AC[Analytic Connections<br/>8 LLM Connectors]
-            AA[Application Automations]
+            MCP["MCP Server"]
+            AC["Analytic Connections - 8 LLM Connectors"]
+            AA["Application Automations"]
         end
 
         subgraph "Foundation"
-            AE[Qlik Associative Engine]
-            DP[Data Products for Analytics]
-            GOV[AI Governance & Trust]
+            AE["Qlik Associative Engine"]
+            DP["Data Products for Analytics"]
+            GOV["AI Governance and Trust"]
         end
     end
 

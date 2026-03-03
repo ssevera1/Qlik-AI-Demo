@@ -24,6 +24,6 @@ if %errorlevel% neq 0 (
 :: Disable all Streamlit telemetry
 set STREAMLIT_BROWSER_GATHER_USAGE_STATS=false
 
-:: Run the app
-echo Starting Streamlit app...
-streamlit run app.py
+:: Run the app (localhost only - not discoverable on LAN)
+echo Starting Streamlit app on localhost only...
+streamlit run app.py --server.address 127.0.0.1 --server.headless true

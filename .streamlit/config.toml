@@ -3,6 +3,8 @@ gatherUsageStats = false
 
 [server]
 fileWatcherType = "none"
+address = "127.0.0.1"
+headless = true
 
 [runner]
 magicEnabled = false
