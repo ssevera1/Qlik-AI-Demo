@@ -1,11 +1,16 @@
 [browser]
-# Disable Streamlit from collecting usage statistics
 gatherUsageStats = false
 
 [server]
-# Disable file watcher polling (reduces background activity)
 fileWatcherType = "none"
 
 [runner]
-# Disable magic commands
 magicEnabled = false
+
+[theme]
+base = "light"
+primaryColor = "#EE0011"
+backgroundColor = "#F6F0E2"
+secondaryBackgroundColor = "#EDE7D9"
+textColor = "#000000"
+font = "sans serif"

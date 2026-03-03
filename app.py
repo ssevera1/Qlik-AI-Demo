@@ -26,58 +26,215 @@ st.set_page_config(
 # ---------------------------------------------------------------------------
 st.markdown("""
 <style>
+    /* ---- Global overrides ------------------------------------------------ */
+    html, body, [data-testid="stAppViewContainer"] {
+        background-color: #F6F0E2;
+        color: #000000;
+    }
+    [data-testid="stSidebar"] {
+        background-color: #EDE7D9;
+    }
+    [data-testid="stSidebar"] * {
+        color: #000000;
+    }
+
+    /* ---- Headings -------------------------------------------------------- */
+    h1, h2, h3, h4, h5, h6 {
+        color: #000000 !important;
+    }
+
+    /* ---- Links ----------------------------------------------------------- */
+    a, a:visited {
+        color: #EE0011 !important;
+    }
+    a:hover {
+        color: #FF281E !important;
+    }
+
+    /* ---- Buttons --------------------------------------------------------- */
+    .stButton > button,
+    button[kind="primary"] {
+        background: linear-gradient(135deg, #EE0011 0%, #FF281E 100%) !important;
+        color: #ffffff !important;
+        border: none !important;
+        border-radius: 6px !important;
+    }
+    .stButton > button:hover {
+        background: linear-gradient(135deg, #FF281E 0%, #EE0011 100%) !important;
+        color: #ffffff !important;
+    }
+
+    /* ---- Cards / Expanders / Inputs -------------------------------------- */
+    [data-testid="stExpander"],
+    .stTextInput > div > div,
+    .stSelectbox > div > div,
+    .stMultiSelect > div > div {
+        background-color: #FFFFFF !important;
+        border: 1px solid #D5CFC1 !important;
+        border-radius: 8px;
+    }
+    [data-testid="stExpander"] summary {
+        color: #000000;
+    }
+
+    /* ---- Tabs ------------------------------------------------------------ */
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 2px;
+        border-bottom: 2px solid #D5CFC1;
+    }
+    .stTabs [data-baseweb="tab"] {
+        background-color: #FFFFFF;
+        border: 1px solid #D5CFC1;
+        border-bottom: none;
+        border-radius: 8px 8px 0 0;
+        color: #555555;
+        padding: 8px 20px;
+    }
+    .stTabs [aria-selected="true"] {
+        background: linear-gradient(135deg, #EE0011, #FF281E) !important;
+        color: #ffffff !important;
+        border-color: #EE0011 !important;
+    }
+
+    /* ---- Tables ---------------------------------------------------------- */
+    .stTable table,
+    [data-testid="stTable"] table {
+        border-collapse: collapse;
+    }
+    .stTable th,
+    [data-testid="stTable"] th {
+        background-color: #EDE7D9 !important;
+        color: #000000 !important;
+        border: 1px solid #D5CFC1;
+    }
+    .stTable td,
+    [data-testid="stTable"] td {
+        background-color: #FFFFFF;
+        color: #000000;
+        border: 1px solid #D5CFC1;
+    }
+
+    /* ---- Alert boxes ----------------------------------------------------- */
+    [data-testid="stAlert"][data-baseweb-kind="info"],
+    .stInfo, div[data-testid="stNotification"][data-type="info"] {
+        background-color: rgba(0,137,236,0.08) !important;
+        border-left-color: #0089EC !important;
+        color: #000000 !important;
+    }
+    [data-testid="stAlert"][data-baseweb-kind="success"],
+    .stSuccess, div[data-testid="stNotification"][data-type="success"] {
+        background-color: rgba(0,184,69,0.08) !important;
+        border-left-color: #00B845 !important;
+        color: #000000 !important;
+    }
+    [data-testid="stAlert"][data-baseweb-kind="warning"],
+    .stWarning, div[data-testid="stNotification"][data-type="warning"] {
+        background-color: rgba(254,214,14,0.10) !important;
+        border-left-color: #FED60E !important;
+        color: #000000 !important;
+    }
+    [data-testid="stAlert"][data-baseweb-kind="error"],
+    .stError, div[data-testid="stNotification"][data-type="error"] {
+        background-color: rgba(255,40,30,0.06) !important;
+        border-left-color: #FF281E !important;
+        color: #000000 !important;
+    }
+
+    /* ---- Scrollbar ------------------------------------------------------- */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #F6F0E2; }
+    ::-webkit-scrollbar-thumb { background: #D5CFC1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #555555; }
+
+    /* ---- Executive Summary card ------------------------------------------ */
     .exec-summary {
-        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-        color: #e0e0e0;
+        background: #FFFFFF;
+        color: #000000;
         padding: 1.5rem;
         border-radius: 12px;
-        border-left: 5px solid #00c853;
+        border-left: 5px solid #EE0011;
+        border: 1px solid #D5CFC1;
+        border-left: 5px solid #EE0011;
         margin-bottom: 1.5rem;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
     }
-    .exec-summary h3 { color: #00e676; margin-top: 0; }
-    .exec-summary li { margin-bottom: 0.4rem; }
-    .comparison-better { color: #00c853; font-weight: bold; }
-    .comparison-worse { color: #ff5252; font-weight: bold; }
+    .exec-summary h3 {
+        color: #EE0011 !important;
+        margin-top: 0;
+    }
+    .exec-summary li { margin-bottom: 0.4rem; color: #000000; }
+    .exec-summary b { color: #000000; }
+
+    /* ---- Section divider ------------------------------------------------- */
     .section-divider {
         border: 0;
         height: 3px;
-        background: linear-gradient(to right, #00c853, #0f3460, #00c853);
+        background: linear-gradient(to right, #EE0011, #FF281E, #EE0011);
         margin: 2rem 0;
     }
+
+    /* ---- Requirement box ------------------------------------------------- */
     .req-box {
-        background: #1e1e2f;
-        color: #e0e0e0;
+        background: #FFFFFF;
+        color: #000000;
         padding: 1rem;
         border-radius: 8px;
-        border: 1px solid #333;
+        border: 1px solid #D5CFC1;
+        border-left: 4px solid #0089EC;
         margin-bottom: 0.75rem;
     }
+    .req-box b { color: #000000; }
+
+    /* ---- Demo placeholder ------------------------------------------------ */
     .demo-placeholder {
-        background: #f0f2f6;
-        border: 2px dashed #aaa;
+        background: #FFFFFF;
+        border: 2px dashed #D5CFC1;
         border-radius: 12px;
         padding: 2rem;
         text-align: center;
-        color: #666;
+        color: #555555;
         margin: 1rem 0;
     }
-    .architecture-box {
-        background: #0d1117;
-        color: #c9d1d9;
-        padding: 1.2rem;
-        border-radius: 8px;
-        font-family: monospace;
-        white-space: pre;
-        overflow-x: auto;
-        margin: 1rem 0;
-        border: 1px solid #30363d;
-    }
+    .demo-placeholder a { color: #EE0011 !important; }
+
+    /* ---- Use-case card --------------------------------------------------- */
     .use-case-card {
-        background: #f8f9fa;
+        background: #FFFFFF;
         border-radius: 10px;
         padding: 1rem;
-        border-left: 4px solid #0f3460;
+        border: 1px solid #D5CFC1;
+        border-left: 4px solid #0089EC;
         margin-bottom: 0.75rem;
+        color: #000000;
+    }
+    .use-case-card strong { color: #000000; }
+    .use-case-card em { color: #555555; }
+
+    /* ---- Comparison helpers ---------------------------------------------- */
+    .comparison-better { color: #00B845; font-weight: bold; }
+    .comparison-worse  { color: #FF281E; font-weight: bold; }
+
+    /* ---- Footer text ----------------------------------------------------- */
+    .footer-text { color: #888888; font-size: 0.85rem; }
+
+    /* ---- Hover backgrounds ----------------------------------------------- */
+    .stSelectbox [data-baseweb="menu"] li:hover,
+    .stMultiSelect [data-baseweb="menu"] li:hover {
+        background-color: #F0EAD6 !important;
+    }
+
+    /* ---- Radio buttons in sidebar ---------------------------------------- */
+    [data-testid="stSidebar"] .stRadio label:hover {
+        background-color: #F0EAD6;
+        border-radius: 4px;
+    }
+
+    /* ---- Metric cards ---------------------------------------------------- */
+    [data-testid="stMetric"] {
+        background-color: #FFFFFF;
+        border: 1px solid #D5CFC1;
+        border-radius: 8px;
+        padding: 0.75rem;
     }
 </style>
 """, unsafe_allow_html=True)
