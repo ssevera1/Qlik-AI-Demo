@@ -430,7 +430,7 @@ def _build_part2(pdf: _QlikPDF):
     _add_subsection(pdf, "Employee Turnover / Attrition Prediction")
     _body(pdf, "Problem Type: Binary Classification (Stayed vs. Left)")
     _table(pdf, ["Feature Category", "Example Fields"], [
-        ["Demographics", "Age, tenure, commute distance, education level"],
+        ["Demographics", "Tenure, commute distance, education level"],
         ["Job Details", "Department, role, job level, years in current role"],
         ["Performance", "Performance rating (last 3 years), project outcomes"],
         ["Engagement", "Engagement survey scores, satisfaction index, eNPS"],

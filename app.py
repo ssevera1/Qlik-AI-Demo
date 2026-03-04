@@ -1101,7 +1101,7 @@ elif section == "Part 2: Qlik Predict (ML)":
                     "Compensation", "Work Patterns", "Development", "Manager",
                 ],
                 "Example Fields": [
-                    "Age, tenure, commute distance, education level",
+                    "Tenure, commute distance, education level",
                     "Department, role, job level, years in current role",
                     "Performance rating (last 3 years), project outcomes",
                     "Engagement survey scores, satisfaction index, eNPS",
