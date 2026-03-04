@@ -344,6 +344,17 @@ def _build_part1(pdf: _QlikPDF):
 
     _body(pdf, "Migration Warning: If you have existing analyses relying on business logic settings (Behaviors, Hierarchies, Calendar periods), you cannot modify these after enabling Qlik Answers. Plan your migration carefully.")
 
+    _add_subsection(pdf, "Clarification: What 'Business Logic' Means")
+    _body(pdf, "'Business logic' refers specifically to the Logical Model settings that govern Insight Advisor's behavior (found under App Edit > Logical Model > Business Logic). These include:")
+    _table(pdf, ["Setting", "What It Controls"], [
+        ["Behaviors", "Rules telling Insight Advisor how to treat fields (e.g., default aggregations, preferred dimensions)"],
+        ["Hierarchies", "Logical drill-down groupings for Insight Advisor NL query interpretation"],
+        ["Calendar periods", "Time-based analysis periods for Insight Advisor suggestions"],
+        ["Packages", "Groups of related fields for Insight Advisor analysis"],
+        ["Synonyms", "Alternative names for fields - the only setting carried over to Qlik Answers"],
+    ], [40, 150])
+    _body(pdf, "This does NOT affect regular app objects. Drill-down dimensions, master items, variables, expressions, and all other standard app-level objects are completely unaffected. The restriction applies only to the Insight Advisor-specific logical model configuration, which becomes frozen once Qlik Answers is enabled.")
+
     _links_section(pdf, "Sources & References", [
         ("Qlik GA Press Release (Feb 2026)", "https://www.businesswire.com/news/home/20260210837577/en/Qlik-Brings-Agentic-Analytics-to-General-Availability-and-Launches-MCP-Server-for-Third-Party-Assistants"),
         ("Qlik Answers - Qlik Cloud Help", "https://help.qlik.com/en-US/cloud-services/Subsystems/Hub/Content/Sense_Hub/QlikAnswers/Qlik-Answers.htm"),

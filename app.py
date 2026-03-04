@@ -822,6 +822,25 @@ elif section == "Part 1: Qlik Answers (Structured Data)":
         after enabling Qlik Answers. Plan your migration carefully.
         """)
 
+        st.info("""
+        **Clarification:** "Business logic" refers specifically to the **Logical Model** settings
+        that govern Insight Advisor's behavior (found under *App Edit > Logical Model > Business Logic*).
+        These include:
+
+        | Setting | What It Controls |
+        |---------|-----------------|
+        | **Behaviors** | Rules telling Insight Advisor how to treat fields (e.g., default aggregations, preferred dimensions) |
+        | **Hierarchies** | Logical drill-down groupings for Insight Advisor NL query interpretation |
+        | **Calendar periods** | Time-based analysis periods for Insight Advisor suggestions |
+        | **Packages** | Groups of related fields for Insight Advisor analysis |
+        | **Synonyms** | Alternative names for fields — **the only setting carried over to Qlik Answers** |
+
+        **This does NOT affect regular app objects.** Drill-down dimensions, master items, variables,
+        expressions, and all other standard app-level objects are completely unaffected.
+        The restriction applies only to the Insight Advisor-specific logical model configuration,
+        which becomes frozen once Qlik Answers is enabled.
+        """)
+
     # ----- 1.6 Demo -----
     elif subsection == "1.6 Demo":
         st.header("Demo: Qlik Answers Agentic Analytics")
