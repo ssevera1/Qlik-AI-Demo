@@ -355,6 +355,21 @@ def _build_part1(pdf: _QlikPDF):
     ], [40, 150])
     _body(pdf, "This does NOT affect regular app objects. Drill-down dimensions, master items, variables, expressions, and all other standard app-level objects are completely unaffected. The restriction applies only to the Insight Advisor-specific logical model configuration, which becomes frozen once Qlik Answers is enabled.")
 
+    _add_subsection(pdf, "Embedding Qlik Answers")
+    _body(pdf, "Qlik Answers can be embedded into external web applications using qlik-embed with OAuth M2M impersonation. The ai/assistant component type allows embedding the full conversational interface into any web app.")
+
+    _add_subsection(pdf, "Monitoring: Qlik Cloud Answers Analyzer")
+    _body(pdf, "The Answers Analyzer is a community-supported Qlik Sense monitoring app that provides operational analytics for Qlik Answers deployments.")
+    _table(pdf, ["Capability", "Description"], [
+        ["User Question Tracking", "Monitor what questions users are asking across knowledgebases and assistants"],
+        ["Behavioral Analysis", "Analyze question types and content usage patterns"],
+        ["Knowledgebase Optimization", "Identify inaccurate, unused, and unreferenced documents"],
+        ["Quota Monitoring", "Track knowledgebase page sizes relative to quotas"],
+        ["Index Freshness", "Monitor how recently knowledgebases have been re-indexed"],
+        ["Alerting", "Set alerts on metrics (e.g., stale knowledgebases)"],
+    ], [50, 140])
+    _body(pdf, "Requires: TenantAdmin + AuditAdmin roles. Part of the Qlik Cloud Monitoring Apps suite.")
+
     _links_section(pdf, "Sources & References", [
         ("Qlik GA Press Release (Feb 2026)", "https://www.businesswire.com/news/home/20260210837577/en/Qlik-Brings-Agentic-Analytics-to-General-Availability-and-Launches-MCP-Server-for-Third-Party-Assistants"),
         ("Qlik Answers - Qlik Cloud Help", "https://help.qlik.com/en-US/cloud-services/Subsystems/Hub/Content/Sense_Hub/QlikAnswers/Qlik-Answers.htm"),
@@ -364,6 +379,8 @@ def _build_part1(pdf: _QlikPDF):
         ("Deploying and Administering Qlik Answers", "https://help.qlik.com/en-US/cloud-services/Subsystems/Hub/Content/Sense_Hub/QlikAnswers/administering-qlik-answers.htm"),
         ("Qlik Answers Product Page", "https://www.qlik.com/us/products/qlik-answers"),
         ("Qlik MCP Community Video", "https://community.qlik.com/t5/Integration-Extension-APIs/Qlik-Cloud-Development-with-Claude-Desktop-and-MCP-Servers-Video/td-p/2535891"),
+        ("Embedding Qlik Answers (GitHub)", "https://github.com/qlik-oss/qlik-cloud-embed-oauth-impersonation"),
+        ("Qlik Cloud Answers Analyzer (GitHub)", "https://github.com/qlik-oss/qlik-cloud-answers-analyzer"),
     ])
 
 
@@ -662,6 +679,62 @@ def _build_part4(pdf: _QlikPDF):
         ("Qlik Predict", "https://help.qlik.com/en-US/cloud-services/Subsystems/Hub/Content/Sense_Hub/AutoML/home-automl.htm"),
         ("Qlik MCP Server", "https://www.qlik.com/us/products/model-context-protocol"),
         ("Qlik Why AI", "https://www.qlik.com/us/why-qlik-for-ai"),
+    ])
+
+    # 4.5
+    _add_section_title(pdf, "4.5 Open-Source Tools & Developer Resources")
+    _body(pdf, "Qlik maintains an active open-source presence through the qlik-oss GitHub organization (~130+ repositories), providing developer SDKs, monitoring apps, embedding examples, and extensibility tools for Qlik Cloud.")
+
+    _add_subsection(pdf, "Qlik Cloud Monitoring Apps")
+    _body(pdf, "Community-supported Qlik Sense applications for operational and usage analytics. Installed via Qlik Automate workflows or manual .qvf import.")
+    _table(pdf, ["App", "Description", "Multi-Tenant"], [
+        ["App Analyzer", "Analyzes and monitors Qlik Sense applications", "Yes"],
+        ["Reload Analyzer", "Tracks reload tasks, durations, and failures", "Yes"],
+        ["Automation Analyzer", "Analyzes Qlik Automate automation runs", "No"],
+        ["Answers Analyzer", "Monitors Qlik Answers usage and accuracy", "No"],
+        ["Access Evaluator", "Analyzes user roles, access, permissions", "No"],
+        ["Entitlement Analyzer", "Tracks license/entitlement usage", "Yes"],
+        ["Report Analyzer", "Analyzes metered report metadata", "No"],
+        ["OEM Dashboard", "Multi-tenant estate overview", "Multi only"],
+    ], [45, 110, 35])
+
+    _add_subsection(pdf, "Developer SDKs & CLI Tools")
+    _table(pdf, ["Tool", "Language", "Description"], [
+        ["@qlik/api", "TypeScript", "Full Qlik Cloud REST API + QIX Engine client"],
+        ["enigma.js", "JavaScript", "WebSocket library for Qlik Associative Engine"],
+        ["enigma-go", "Go", "Go client for the Qlik Associative Engine"],
+        ["qlik-cli", "CLI", "Command-line access to all Qlik Cloud APIs"],
+        ["nebula.js", "JavaScript", "Product-agnostic visualization APIs"],
+        ["halyard.js", "JavaScript", "Programmatic Qlik Load Script generation"],
+        ["picasso.js", "JavaScript", "Charting library for interactive visualizations"],
+    ], [35, 30, 125])
+
+    _add_subsection(pdf, "MCP Registry & Native MCP Endpoint")
+    _body(pdf, "Qlik maintains an MCP Registry listing MCP servers for AI-assisted development workflows. Qlik Cloud exposes a native MCP endpoint at /api/ai/mcp using streamable-http transport, enabling external AI assistants to interact directly with governed analytics data.")
+    _bullet(pdf, "Qlik Cloud MCP Server - native analytics access for third-party AI")
+    _bullet(pdf, "Qlik Design System (Sprout) - AI-assisted code generation with Qlik design tokens")
+    _bullet(pdf, "Qlik R&D Knowledge Base - developer documentation for AI-assisted use cases")
+    pdf.ln(3)
+
+    _add_subsection(pdf, "Embedding & Extensibility")
+    _table(pdf, ["Resource", "Description"], [
+        ["qlik-embed OAuth Impersonation", "Embed Qlik Sense and Qlik Answers (ai/assistant) in external apps"],
+        ["Embedded Analytics Workshop", "Self-directed workshop for embedding Qlik Cloud visualizations"],
+        ["Server-Side Extensions (SSE)", "gRPC protocol for extending Qlik expressions with Python, R, C++, Java, Go"],
+        ["SSE R Plugin", "R integration for statistical and ML computations in Qlik"],
+        ["Insight Advisor API Example", "Programmatic NL querying of Qlik analytics"],
+        ["Qlik Cloud Examples", "Scripts and snippets for Qlik Cloud integration"],
+    ], [60, 130])
+
+    _links_section(pdf, "Sources & References", [
+        ("Qlik OSS GitHub Organization", "https://github.com/orgs/qlik-oss"),
+        ("Qlik Cloud Monitoring Apps", "https://github.com/qlik-oss/qlik-cloud-monitoring-apps"),
+        ("Qlik MCP Registry", "https://github.com/qlik-oss/qlik-mcp-registry"),
+        ("Qlik Developer Portal", "https://qlik.dev/"),
+        ("enigma.js", "https://github.com/qlik-oss/enigma.js"),
+        ("qlik-api-ts", "https://github.com/qlik-oss/qlik-api-ts"),
+        ("Server-Side Extensions", "https://github.com/qlik-oss/server-side-extension"),
+        ("Embedding Qlik Answers", "https://github.com/qlik-oss/qlik-cloud-embed-oauth-impersonation"),
     ])
 
 

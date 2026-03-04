@@ -308,6 +308,7 @@ elif section == "Part 4: Qlik Cloud AI/ML Ecosystem":
             "4.2 Current AI/ML Features",
             "4.3 Planned / Upcoming Features",
             "4.4 Qlik Staige Platform",
+            "4.5 Open-Source Tools & Developer Resources",
         ],
     )
 else:
@@ -870,6 +871,38 @@ elif section == "Part 1: Qlik Answers (Structured Data)":
         - [Qlik Answers Product Page](https://www.qlik.com/us/products/qlik-answers)
         - [Qlik Agentic AI Experience Blog](https://www.qlik.com/blog/a-vision-for-the-future-qliks-new-agentic-ai-experience)
         - [Qlik MCP Community Video](https://community.qlik.com/t5/Integration-Extension-APIs/Qlik-Cloud-Development-with-Claude-Desktop-and-MCP-Servers-Video/td-p/2535891)
+        """)
+
+        section_divider()
+
+        st.markdown("### Embedding Qlik Answers")
+        st.markdown("""
+        Qlik Answers can be embedded into external web applications using `qlik-embed` with OAuth impersonation.
+        The `ai/assistant` component type allows embedding the full Qlik Answers conversational interface
+        into any web app, providing governed AI analytics outside the Qlik Cloud hub.
+
+        - [Embedding Qlik Answers — OAuth Impersonation Example (GitHub)](https://github.com/qlik-oss/qlik-cloud-embed-oauth-impersonation)
+        """)
+
+        section_divider()
+
+        st.markdown("### Monitoring: Qlik Cloud Answers Analyzer")
+        st.markdown("""
+        The **Answers Analyzer** is a community-supported Qlik Sense monitoring app
+        ([qlik-oss/qlik-cloud-answers-analyzer](https://github.com/qlik-oss/qlik-cloud-answers-analyzer))
+        that provides operational analytics for Qlik Answers deployments:
+
+        | Capability | Description |
+        |-----------|-------------|
+        | **User Question Tracking** | Monitor what questions users are asking across knowledgebases and assistants |
+        | **Behavioral Analysis** | Analyze question types and content usage patterns |
+        | **Knowledgebase Optimization** | Identify inaccurate, unused, and unreferenced documents |
+        | **Quota Monitoring** | Track knowledgebase page sizes relative to quotas |
+        | **Index Freshness** | Monitor how recently knowledgebases have been re-indexed |
+        | **Alerting** | Set alerts on metrics (e.g., stale knowledgebases) |
+
+        **Requires:** TenantAdmin + AuditAdmin roles. Part of the
+        [Qlik Cloud Monitoring Apps](https://github.com/qlik-oss/qlik-cloud-monitoring-apps) suite.
         """)
 
 
@@ -1986,6 +2019,93 @@ elif section == "Part 4: Qlik Cloud AI/ML Ecosystem":
         - [Qlik Predict](https://help.qlik.com/en-US/cloud-services/Subsystems/Hub/Content/Sense_Hub/AutoML/home-automl.htm)
         - [Qlik MCP Server](https://www.qlik.com/us/products/model-context-protocol)
         - [Qlik Why AI](https://www.qlik.com/us/why-qlik-for-ai)
+        """)
+
+    # ----- 4.5 Open-Source Tools & Developer Resources -----
+    elif subsection == "4.5 Open-Source Tools & Developer Resources":
+        st.header("Open-Source Tools & Developer Resources")
+
+        st.markdown("""
+        Qlik maintains an active open-source presence through the
+        [qlik-oss](https://github.com/orgs/qlik-oss) GitHub organization (~130+ repositories),
+        providing developer SDKs, monitoring apps, embedding examples, and extensibility tools
+        for Qlik Cloud.
+        """)
+
+        st.markdown("### Qlik Cloud Monitoring Apps")
+        st.markdown("""
+        A suite of **community-supported** Qlik Sense applications that provide operational
+        and usage analytics for Qlik Cloud tenants. Installed via Qlik Automate workflows
+        or manual `.qvf` import.
+
+        | App | Description | Multi-Tenant |
+        |-----|-------------|:------------:|
+        | **App Analyzer** | Analyzes and monitors Qlik Sense applications in a tenant | Yes |
+        | **Reload Analyzer** | Tracks reload tasks, durations, and failures | Yes |
+        | **Automation Analyzer** | Analyzes Qlik Automate automation runs | No |
+        | **Answers Analyzer** | Monitors Qlik Answers usage, knowledgebases, and accuracy | No |
+        | **Access Evaluator** | Analyzes user roles, access, and permissions | No |
+        | **Entitlement Analyzer** | Tracks license/entitlement usage (User subscription only) | Yes |
+        | **Report Analyzer** | Analyzes metered report metadata | No |
+        | **OEM Dashboard** | Multi-tenant estate overview (User subscription only) | Multi only |
+
+        All apps require **TenantAdmin** role. The Answers Analyzer also requires **AuditAdmin**.
+
+        - [Qlik Cloud Monitoring Apps (GitHub)](https://github.com/qlik-oss/qlik-cloud-monitoring-apps)
+        """)
+
+        section_divider()
+
+        st.markdown("### Developer SDKs & CLI Tools")
+        st.markdown("""
+        | Tool | Language | Description |
+        |------|---------|-------------|
+        | **[@qlik/api](https://github.com/qlik-oss/qlik-api-ts)** | TypeScript | Full Qlik Cloud REST API + QIX Engine client. Works in Node.js and browser. |
+        | **[enigma.js](https://github.com/qlik-oss/enigma.js)** | JavaScript | WebSocket library for Qlik's Associative Engine (QIX). Most-starred Qlik OSS repo. |
+        | **[enigma-go](https://github.com/qlik-oss/enigma-go)** | Go | Go client for the Qlik Associative Engine. |
+        | **[qlik-cli](https://github.com/qlik-oss/qlik-cli)** | CLI | Command-line access to all public Qlik Cloud APIs. Available via brew, chocolatey. |
+        | **[nebula.js](https://github.com/qlik-oss/nebula.js)** | JavaScript | Product-agnostic APIs for building visualizations on the Qlik Engine. |
+        | **[halyard.js](https://github.com/qlik-oss/halyard.js)** | JavaScript | Generate Qlik Load Scripts programmatically. |
+        | **[picasso.js](https://github.com/qlik-oss/picasso.js)** | JavaScript | Charting library for building interactive visualizations. |
+        """)
+
+        section_divider()
+
+        st.markdown("### MCP Registry & Native MCP Endpoint")
+        st.markdown("""
+        Qlik maintains an [MCP Registry](https://github.com/qlik-oss/qlik-mcp-registry)
+        listing MCP servers available for AI-assisted development workflows
+        (e.g., GitHub Copilot integration). Qlik Cloud also exposes a **native MCP endpoint**
+        at `/api/ai/mcp` using the streamable-http transport, enabling external AI assistants
+        to interact directly with Qlik analytics and governed data.
+
+        Registered MCP servers include:
+        - **Qlik Cloud MCP Server** — Native Qlik Cloud analytics access for third-party AI
+        - **Qlik Design System (Sprout)** — AI-assisted code generation using Qlik design tokens and components
+        - **Qlik R&D Knowledge Base** — Internal developer documentation for AI-assisted use cases
+        """)
+
+        section_divider()
+
+        st.markdown("### Embedding & Extensibility")
+        st.markdown("""
+        | Resource | Description |
+        |----------|-------------|
+        | **[qlik-embed OAuth Impersonation](https://github.com/qlik-oss/qlik-cloud-embed-oauth-impersonation)** | Embed Qlik Sense and Qlik Answers (`ai/assistant`) in external apps using OAuth M2M |
+        | **[Embedded Analytics Workshop](https://github.com/qlik-oss/qlik-embedded-analytics-workshop)** | Self-directed workshop for embedding Qlik Cloud visualizations (GitHub Codespaces) |
+        | **[Server-Side Extensions (SSE)](https://github.com/qlik-oss/server-side-extension)** | gRPC protocol for extending Qlik's expression engine with external code (Python, R, C++, Java, Go) |
+        | **[SSE R Plugin](https://github.com/qlik-oss/sse-r-plugin)** | R integration for statistical and ML computations within Qlik expressions |
+        | **[Insight Advisor API Example](https://github.com/qlik-oss/insight-advisor-api-example)** | Programmatic NL querying of Qlik analytics via the Insight Advisor API |
+        | **[Qlik Cloud Examples](https://github.com/qlik-oss/qlik-cloud-examples)** | Scripts and snippets for Qlik Cloud integration (Python, TypeScript, Bash, cURL) |
+        | **[Web Integration Examples](https://github.com/qlik-oss/web-integration-examples)** | Example web apps and mashups for Qlik Cloud |
+        """)
+
+        st.markdown("""
+        **Sources:**
+        - [Qlik OSS GitHub Organization](https://github.com/orgs/qlik-oss)
+        - [Qlik Cloud Monitoring Apps](https://github.com/qlik-oss/qlik-cloud-monitoring-apps)
+        - [Qlik Developer Portal](https://qlik.dev/)
+        - [Qlik MCP Registry](https://github.com/qlik-oss/qlik-mcp-registry)
         """)
 
 
