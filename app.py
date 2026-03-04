@@ -1212,7 +1212,7 @@ elif section == "Part 2: Qlik Predict (ML)":
             {
                 "name": "Compensation Equity Analysis",
                 "type": "Regression",
-                "desc": "Predict expected salary based on role, experience, performance, location to identify pay inequities across gender, ethnicity, and other protected classes.",
+                "desc": "Predict expected salary based on role, experience, performance, location to identify pay inequities.",
             },
             {
                 "name": "Training ROI Prediction",
