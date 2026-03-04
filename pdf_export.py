@@ -459,7 +459,6 @@ def _build_part2(pdf: _QlikPDF):
         ("Workforce Demand Forecasting", "Time Series (MVTS)"),
         ("Succession Planning", "Classification"),
         ("Internal Mobility Optimization", "Multiclass Classification"),
-        ("Diversity & Inclusion Risk", "Classification"),
         ("New Hire Onboarding Success", "Binary Classification"),
         ("Benefits Utilization Prediction", "Regression"),
         ("Team Performance Forecasting", "Regression"),

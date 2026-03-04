@@ -1235,11 +1235,6 @@ elif section == "Part 2: Qlik Predict (ML)":
                 "desc": "Predict optimal internal moves for employees based on skills, interests, performance history, and organizational needs. Match talent supply to demand.",
             },
             {
-                "name": "Diversity & Inclusion Risk",
-                "type": "Classification",
-                "desc": "Identify departments at risk of diversity gaps based on hiring patterns, attrition by demographic, and promotion rate disparities.",
-            },
-            {
                 "name": "New Hire Onboarding Success",
                 "type": "Binary Classification",
                 "desc": "Predict which new hires will reach full productivity within expected timeframes based on onboarding completion, buddy assignment, early check-in sentiment, and role complexity.",
