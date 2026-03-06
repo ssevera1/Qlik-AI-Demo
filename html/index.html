@@ -90,9 +90,7 @@ blockquote{border-left:3px solid #D5CFC1;padding-left:1rem;color:#555;margin:1re
 <a href="#s2-1">2.1 Executive Summary</a>
 <a href="#s2-2">2.2 How It Works</a>
 <a href="#s2-3">2.3 ML Algorithms</a>
-<a href="#s2-4">2.4 HR Use Cases</a>
-<a href="#s2-5">2.5 People Analytics</a>
-<a href="#s2-6">2.6 Demo</a>
+<a href="#s2-4">2.4 Demo</a>
 </div><hr>
 <div class="nav-group">
 <div class="nav-group-title">Part 3: Automations &amp; LLM</div>
@@ -555,85 +553,7 @@ graph TB
 </section>
 
 <section id="s2-4">
-<h2>2.4 HR Use Cases for Qlik Predict</h2>
-<div class="tabs">
-<div class="tab-list">
-<button class="tab-btn active">Employee Turnover</button>
-<button class="tab-btn">Promotion Prediction</button>
-<button class="tab-btn">Lateral Movement</button>
-</div>
-<div class="tab-panel active">
-<h4>Predicting Employee Turnover / Attrition</h4>
-<p><b>Problem Type:</b> Binary Classification (Stayed vs. Left)</p>
-<p><b>Training Data Features:</b></p>
-<table><tr><th>Feature Category</th><th>Example Fields</th></tr>
-<tr><td>Demographics</td><td>Tenure, commute distance, education level</td></tr>
-<tr><td>Job Details</td><td>Department, role, job level, years in current role</td></tr>
-<tr><td>Performance</td><td>Performance rating (last 3 years), project outcomes</td></tr>
-<tr><td>Engagement</td><td>Engagement survey scores, satisfaction index, eNPS</td></tr>
-<tr><td>Compensation</td><td>Base salary, bonus %, last raise %, salary band position</td></tr>
-<tr><td>Work Patterns</td><td>Overtime hours, remote work frequency, PTO usage</td></tr>
-<tr><td>Development</td><td>Training completions, certifications, mentoring participation</td></tr>
-<tr><td>Manager</td><td>Manager tenure, manager span of control, manager change count</td></tr></table>
-<p><b>Implementation Steps:</b></p>
-<ol>
-<li>Prepare historical employee dataset with known attrition outcomes</li>
-<li>Set target column to attrition flag (Yes/No)</li>
-<li>Qlik Predict trains XGBoost, Random Forest, LightGBM, CatBoost, Logistic Regression, etc.</li>
-<li>Review SHAP values to understand top attrition drivers</li>
-<li>Deploy model and generate risk scores for current employees</li>
-<li>Build Qlik Sense dashboard with flight risk indicators by department, team, tenure band</li>
-<li>Set up Qlik Automate alerts when high-value employees are flagged at-risk</li>
-</ol>
-<p><b>Intervention Strategies (Informed by Predictions):</b></p>
-<ul>
-<li>Career development conversations for employees with high "years since promotion" SHAP values</li>
-<li>Workload rebalancing for employees where "overtime hours" is a top driver</li>
-<li>Compensation adjustments where "salary band position" drives risk</li>
-<li>Lateral move offers &mdash; one organization reduced attrition to zero for 6 months by offering lateral moves to 40% of at-risk employees</li>
-</ul>
-</div>
-<div class="tab-panel">
-<h4>Predicting Promotions</h4>
-<p><b>Problem Type:</b> Binary Classification (Promoted vs. Not Promoted) or Multiclass Classification (Promotion Level)</p>
-<p><b>Key Features:</b></p>
-<ul>
-<li>Performance ratings over multiple review cycles</li><li>Training completion rates and skill assessments</li><li>Tenure in current role vs. organizational average</li><li>Project outcomes and 360-degree feedback scores</li><li>Education level and professional certifications</li><li>Cross-functional project participation</li>
-</ul>
-<p><b>Value:</b></p>
-<ul><li>Identifies high-potential employees for succession planning</li><li>Ensures equitable promotion practices across demographics</li><li>Predicts which employees are ready for advancement</li><li>Reduces bias by surfacing data-driven readiness indicators</li></ul>
-</div>
-<div class="tab-panel">
-<h4>Predicting Lateral Movements</h4>
-<p><b>Problem Type:</b> Multiclass Classification or Regression</p>
-<p><b>Modeling Approach:</b> Use historical data with Markov-style transitions to predict employee movement patterns including voluntary/involuntary turnover, retirements, and internal mobility.</p>
-<p><b>Key Features:</b></p>
-<ul><li>Current role tenure and breadth of experience</li><li>Cross-functional project participation</li><li>Expressed career interests (from development plans)</li><li>Internal application history</li><li>Skill adjacency mapping</li><li>Peer network analysis</li></ul>
-<p><b>Use Cases:</b></p>
-<ul><li>Identify employees who would benefit from a role change before they become disengaged</li><li>Map internal talent pools to open positions</li><li>Predict which departments will have internal transfer demand</li><li>Build "career path probability" visualizations for employees</li></ul>
-</div></div>
-</section>
-
-<section id="s2-5">
-<h2>2.5 People Analytics Use Cases &mdash; Ideation</h2>
-<p>Beyond turnover, promotions, and lateral moves, here are additional use cases a people analytics team can deploy with Qlik Predict:</p>
-<div class="use-case-card"><strong>Flight Risk Scoring (60-90 day window)</strong> &mdash; <em>Binary Classification</em><br>Score each employee's probability of leaving within a specific window, enabling targeted retention interventions. Unlike general attrition models, this is time-bounded for actionability.</div>
-<div class="use-case-card"><strong>Absenteeism Prediction</strong> &mdash; <em>Regression / Classification</em><br>Predict employees likely to have high absenteeism. Correlate with engagement data, health benefits usage, workload metrics, and seasonal patterns.</div>
-<div class="use-case-card"><strong>Employee Engagement Forecasting</strong> &mdash; <em>Regression</em><br>Predict future engagement scores based on survey trends, manager changes, workload shifts, and organizational restructuring impacts.</div>
-<div class="use-case-card"><strong>Recruitment Success Prediction</strong> &mdash; <em>Binary Classification</em><br>Predict which candidates will be successful hires (tenure &gt; 1 year + performance rating &gt; 3) based on application data, interview scores, and source channel.</div>
-<div class="use-case-card"><strong>Time-to-Hire Forecasting</strong> &mdash; <em>Time Series (MVTS)</em><br>Predict how long open positions will take to fill based on role type, market conditions, location, seniority level, and historical hiring patterns.</div>
-<div class="use-case-card"><strong>Compensation Equity Analysis</strong> &mdash; <em>Regression</em><br>Predict expected salary based on role, experience, performance, location to identify pay inequities.</div>
-<div class="use-case-card"><strong>Training ROI Prediction</strong> &mdash; <em>Regression</em><br>Predict performance improvement from specific training programs to optimize L&amp;D investment. Which programs yield the highest performance uplift?</div>
-<div class="use-case-card"><strong>Workforce Demand Forecasting</strong> &mdash; <em>Time Series (MVTS)</em><br>Use multivariate time series to forecast headcount needs across departments, factoring in seasonality, growth targets, attrition rates, and market conditions.</div>
-<div class="use-case-card"><strong>Succession Planning</strong> &mdash; <em>Classification</em><br>Identify employees with potential for leadership based on career trajectories, competencies, skill development velocity, and leadership assessment scores.</div>
-<div class="use-case-card"><strong>Internal Mobility Optimization</strong> &mdash; <em>Multiclass Classification</em><br>Predict optimal internal moves for employees based on skills, interests, performance history, and organizational needs. Match talent supply to demand.</div>
-<div class="use-case-card"><strong>New Hire Onboarding Success</strong> &mdash; <em>Binary Classification</em><br>Predict which new hires will reach full productivity within expected timeframes based on onboarding completion, buddy assignment, early check-in sentiment, and role complexity.</div>
-<div class="use-case-card"><strong>Benefits Utilization Prediction</strong> &mdash; <em>Regression</em><br>Predict healthcare and benefits costs per employee segment for better budget forecasting and benefits plan design.</div>
-<div class="use-case-card"><strong>Team Performance Forecasting</strong> &mdash; <em>Regression</em><br>Predict team-level performance outcomes based on team composition, diversity of skills, manager effectiveness, and workload distribution.</div>
-</section>
-
-<section id="s2-6">
-<h2>2.6 Demo: Qlik Predict</h2>
+<h2>2.4 Demo: Qlik Predict</h2>
 <div class="demo-placeholder"><strong>Qlik Predict &mdash; Experiment Creation &amp; Model Training</strong><br>Screenshots and animated GIFs would be embedded here from live Qlik Cloud environment.<br><a href="https://techfieldday.com/video/qlik-self-service-ai-demo/" target="_blank">Watch Official Demo &rarr;</a></div>
 <h3>Demo Walkthrough: Employee Attrition Prediction</h3>
 <ol>
