@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;font-size:16px}
+html{font-size:16px}
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:#F6F0E2;color:#000;line-height:1.6;display:flex;min-height:100vh}
 .sidebar{position:fixed;top:0;left:0;width:270px;height:100vh;background:#EDE7D9;border-right:1px solid #D5CFC1;overflow-y:auto;padding:1.5rem 1rem;z-index:100;transition:transform .3s}
 .sidebar h2{font-size:1.1rem;margin-bottom:1rem}
@@ -1231,9 +1231,14 @@ window.addEventListener('scroll', function() {
   }
 });
 
-// Close sidebar on nav click (mobile, delegated)
+// Nav click — use scrollIntoView to work inside Google Sites iframes
 sidebar.addEventListener('click', function(e) {
-  if (e.target.matches('a[href^="#"]') && window.innerWidth <= MOBILE_BP) {
+  var link = e.target.closest('a[href^="#"]');
+  if (!link) return;
+  e.preventDefault();
+  var target = document.getElementById(link.getAttribute('href').slice(1));
+  if (target) target.scrollIntoView({ behavior: 'smooth' });
+  if (window.innerWidth <= MOBILE_BP) {
     sidebar.classList.remove('open');
     overlay.classList.remove('open');
   }
