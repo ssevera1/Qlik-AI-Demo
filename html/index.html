@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Qlik Cloud AI/ML Capabilities</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:#F6F0E2;color:#000;line-height:1.6;display:flex;min-height:100vh}
+.sidebar{position:fixed;top:0;left:0;width:270px;height:100vh;background:#EDE7D9;border-right:1px solid #D5CFC1;overflow-y:auto;padding:1.5rem 1rem;z-index:100;transition:transform .3s}
+.sidebar h2{font-size:1.1rem;margin-bottom:1rem}
+.sidebar .nav-group{margin-bottom:.75rem}
+.sidebar .nav-group-title{font-weight:700;font-size:.85rem;color:#555;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.25rem;padding:.25rem .5rem}
+.sidebar a{display:block;padding:.3rem .5rem .3rem 1rem;color:#000;text-decoration:none;font-size:.88rem;border-radius:4px;transition:background .15s}
+.sidebar a:hover{background:#F0EAD6}
+.sidebar a.active{background:linear-gradient(135deg,#EE0011,#FF281E);color:#fff;border-radius:4px}
+.sidebar .logo{max-width:180px;margin-bottom:1rem}
+.sidebar hr{border:none;height:1px;background:#D5CFC1;margin:.75rem 0}
+.sidebar .sources{font-size:.8rem;color:#555;margin-top:.5rem}
+.sidebar .sources a{display:inline;padding:0;color:#EE0011;font-size:.8rem}
+.hamburger{display:none;position:fixed;top:12px;left:12px;z-index:200;background:#EE0011;color:#fff;border:none;border-radius:6px;width:40px;height:40px;font-size:1.4rem;cursor:pointer}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:99}
+.main{margin-left:270px;padding:2rem 3rem;max-width:1100px;width:100%}
+h1{font-size:2rem;margin-bottom:.5rem}
+h2{font-size:1.6rem;margin:2rem 0 .75rem;border-bottom:2px solid #EE0011;padding-bottom:.3rem}
+h3{font-size:1.25rem;margin:1.5rem 0 .5rem}
+h4{font-size:1.05rem;margin:1rem 0 .4rem}
+p,li{margin-bottom:.4rem}
+ul,ol{padding-left:1.5rem;margin-bottom:1rem}
+a{color:#EE0011}a:hover{color:#FF281E}
+section{padding-top:1rem;margin-bottom:2rem}
+.section-divider{border:0;height:3px;background:linear-gradient(to right,#EE0011,#FF281E,#EE0011);margin:2rem 0}
+.exec-summary{background:#fff;padding:1.5rem;border-radius:12px;border:1px solid #D5CFC1;border-left:5px solid #EE0011;margin-bottom:1.5rem;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.exec-summary h3{color:#EE0011;margin-top:0;border:none}
+.part-heading{margin-top:3rem}
+.nb{border:none}
+.alert{padding:1rem 1.25rem;border-radius:8px;border-left:4px solid;margin:1rem 0}
+.alert-info{background:rgba(0,137,236,.08);border-left-color:#0089EC}
+.alert-success{background:rgba(0,184,69,.08);border-left-color:#00B845}
+.alert-warning{background:rgba(254,214,14,.10);border-left-color:#FED60E}
+.alert-error{background:rgba(255,40,30,.06);border-left-color:#FF281E}
+table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.92rem}
+th{background:#EDE7D9;border:1px solid #D5CFC1;padding:.6rem .75rem;text-align:left}
+td{background:#fff;border:1px solid #D5CFC1;padding:.6rem .75rem}
+.tabs{margin:1rem 0}
+.tab-list{display:flex;gap:2px;border-bottom:2px solid #D5CFC1;flex-wrap:wrap}
+.tab-btn{background:#fff;border:1px solid #D5CFC1;border-bottom:none;border-radius:8px 8px 0 0;padding:.5rem 1.25rem;cursor:pointer;color:#555;font-size:.92rem}
+.tab-btn.active{background:linear-gradient(135deg,#EE0011,#FF281E);color:#fff;border-color:#EE0011}
+.tab-panel{display:none;padding:1.25rem;background:#fff;border:1px solid #D5CFC1;border-top:none;border-radius:0 0 8px 8px}
+.tab-panel.active{display:block}
+details{background:#fff;border:1px solid #D5CFC1;border-radius:8px;margin-bottom:.5rem}
+details summary{padding:.75rem 1rem;cursor:pointer;font-weight:600;list-style:none;display:flex;align-items:center;gap:.5rem}
+details summary::before{content:"▸";transition:transform .2s;display:inline-block}
+details[open] summary::before{transform:rotate(90deg)}
+details .detail-content{padding:0 1rem 1rem}
+.req-box{background:#fff;padding:1rem;border-radius:8px;border:1px solid #D5CFC1;border-left:4px solid #0089EC;margin-bottom:.75rem}
+.demo-placeholder{background:#fff;border:2px dashed #D5CFC1;border-radius:12px;padding:2rem;text-align:center;color:#555;margin:1rem 0}
+.use-case-card{background:#fff;border-radius:10px;padding:1rem;border:1px solid #D5CFC1;border-left:4px solid #0089EC;margin-bottom:.75rem}
+.use-case-card em{color:#555}
+.cols{display:flex;gap:1.5rem;margin:1rem 0}.cols>div{flex:1}
+pre:not(.mermaid){background:#1e1e1e;color:#d4d4d4;padding:1rem;border-radius:8px;overflow-x:auto;margin:1rem 0;font-size:.88rem}
+code{font-family:"Cascadia Code",Consolas,monospace}
+pre.mermaid{background:#fff;color:#000;border:1px solid #D5CFC1;text-align:center;padding:1rem}
+blockquote{border-left:3px solid #D5CFC1;padding-left:1rem;color:#555;margin:1rem 0;font-style:italic}
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-track{background:#F6F0E2}
+::-webkit-scrollbar-thumb{background:#D5CFC1;border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:#555}
+@media(max-width:800px){.sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0)}.hamburger{display:block}.overlay.open{display:block}.main{margin-left:0;padding:1rem;padding-top:3.5rem}.cols{flex-direction:column}}
+</style>
+</head>
+<body>
+
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+<img src="../logo/logo.png" alt="Qlik Logo" class="logo" onerror="this.style.display='none'">
+<h2>Navigation</h2>
+<div class="nav-group"><a href="#home">Home</a></div><hr>
+<div class="nav-group">
+<div class="nav-group-title">Part 1: Qlik Answers</div>
+<a href="#s1-1">1.1 Executive Summary</a>
+<a href="#s1-2">1.2 Structured Data</a>
+<a href="#s1-3">1.3 Requirements</a>
+<a href="#s1-4">1.4 Structured vs Unstructured</a>
+<a href="#s1-5">1.5 vs Insight Advisor</a>
+<a href="#s1-6">1.6 Demo</a>
+</div><hr>
+<div class="nav-group">
+<div class="nav-group-title">Part 2: Qlik Predict</div>
+<a href="#s2-1">2.1 Executive Summary</a>
+<a href="#s2-2">2.2 How It Works</a>
+<a href="#s2-3">2.3 ML Algorithms</a>
+<a href="#s2-4">2.4 HR Use Cases</a>
+<a href="#s2-5">2.5 People Analytics</a>
+<a href="#s2-6">2.6 Demo</a>
+</div><hr>
+<div class="nav-group">
+<div class="nav-group-title">Part 3: Automations &amp; LLM</div>
+<a href="#s3-1">3.1 Executive Summary</a>
+<a href="#s3-2">3.2 Automations Overview</a>
+<a href="#s3-3">3.3 External LLMs</a>
+<a href="#s3-4">3.4 Analytic Connections</a>
+<a href="#s3-5">3.5 Fallback Architecture</a>
+<a href="#s3-6">3.6 Demo</a>
+</div><hr>
+<div class="nav-group">
+<div class="nav-group-title">Part 4: AI/ML Ecosystem</div>
+<a href="#s4-1">4.1 Executive Summary</a>
+<a href="#s4-2">4.2 Current Features</a>
+<a href="#s4-3">4.3 Planned Features</a>
+<a href="#s4-4">4.4 Qlik Staige</a>
+<a href="#s4-5">4.5 Developer Tools</a>
+</div><hr>
+<div class="sources">
+<b>Sources &amp; References</b><br>
+<a href="https://help.qlik.com/en-US/cloud-services/" target="_blank">Qlik Cloud Help</a> |
+<a href="https://qlik.dev/" target="_blank">Developer Portal</a> |
+<a href="https://community.qlik.com/" target="_blank">Community</a> |
+<a href="https://www.qlik.com/us/news/company/press-room/" target="_blank">Press Room</a>
+</div>
+</nav>
+
+<main class="main">
+
+<!-- HOME -->
+<section id="home">
+<h1>Qlik Cloud AI/ML Capabilities</h1>
+<h3 class="nb">A Comprehensive Reference for People Analytics Teams</h3>
+<p><em>Created by Scott Severance</em></p>
+<div class="exec-summary"><h3>Application Overview</h3>
+<ul>
+<li>Covers <b>Qlik Answers</b> (agentic analytics with structured + unstructured data) &mdash; GA Feb 2026</li>
+<li>Documents <b>Qlik Predict</b> (AutoML) with HR-specific use cases for turnover, promotions, and lateral moves</li>
+<li>Explains <b>Application Automations</b> for integrating external LLMs (OpenAI, Claude, etc.) into Qlik apps</li>
+<li>Maps the full <b>Qlik Cloud AI/ML ecosystem</b> including planned features like Discovery Agent and MCP Server</li>
+<li>All content is <b>Qlik Cloud only</b> &mdash; no on-premises Qlik Sense Enterprise content</li>
+</ul></div>
+<hr class="section-divider">
+<div class="cols"><div>
+<h3 class="nb">Quick Links</h3>
+<ul>
+<li><a href="https://www.qlik.com/us/products/qlik-answers" target="_blank">Qlik Answers Product Page</a></li>
+<li><a href="https://help.qlik.com/en-US/cloud-services/Subsystems/Hub/Content/Sense_Hub/AutoML/home-automl.htm" target="_blank">Qlik Predict Documentation</a></li>
+<li><a href="https://www.qlik.com/us/products/qlik-automate" target="_blank">Qlik Automate Product Page</a></li>
+<li><a href="https://help.qlik.com/en-US/cloud-services/" target="_blank">Qlik Cloud Help</a></li>
+<li><a href="https://qlik.dev/" target="_blank">Qlik Developer Portal</a></li>
+</ul></div><div>
+<h3 class="nb">Timeline of Key Announcements</h3>
+<table><tr><th>Date</th><th>Milestone</th></tr>
+<tr><td>2024</td><td>Qlik Answers launched (unstructured data only)</td></tr>
+<tr><td>May 2025</td><td>Agentic analytics vision announced at Qlik Connect</td></tr>
+<tr><td>Oct 2025</td><td>Multivariate Time Series GA in Qlik Predict</td></tr>
+<tr><td>Dec 2025</td><td>Agentic Qlik Answers private preview</td></tr>
+<tr><td>Feb 2026</td><td>Qlik Answers agentic GA + MCP Server GA</td></tr>
+</table></div></div>
+<hr class="section-divider">
+<h3>Architecture Overview</h3>
+<pre class="mermaid">
+graph TB
+    subgraph "Qlik Cloud Platform"
+        QA["Qlik Answers - Agentic Analytics"]
+        QP["Qlik Predict - AutoML"]
+        AA["Application Automations - Qlik Automate"]
+        AC["Analytic Connections - SSE Connectors"]
+        MCP["MCP Server - Third-Party AI"]
+        DA["Discovery Agent - Anomaly Detection"]
+    end
+    subgraph "Data Sources"
+        SD["Structured Data - Qlik Apps"]
+        UD["Unstructured Data - PDFs, DOCX, HTML"]
+        EXT["External APIs - HRIS, ERP"]
+    end
+    subgraph "External AI and LLMs"
+        OAI["OpenAI GPT"]
+        CL["Anthropic Claude"]
+        HF["Hugging Face"]
+        BED["Amazon Bedrock"]
+    end
+    SD --> QA
+    UD --> QA
+    SD --> QP
+    EXT --> AA
+    AA --> OAI
+    AA --> CL
+    AC --> OAI
+    AC --> CL
+    AC --> HF
+    AC --> BED
+    MCP --> CL
+    QA --> DA
+</pre>
+</section>
+
+<!-- PART 1 -->
+<h1 class="part-heading">Part 1: Qlik Answers &mdash; Agentic Analytics with Structured Data</h1>
+
+<section id="s1-1">
+<h2>1.1 Executive Summary</h2>
+<div class="exec-summary"><h3>Executive Summary &mdash; Qlik Answers Structured Data</h3>
+<ul>
+<li><b>What:</b> Qlik Answers now supports <b>structured data</b> from Qlik analytic applications alongside unstructured documents (PDFs, DOCX, HTML), powered by an agentic AI framework and the Qlik Analytics Engine.</li>
+<li><b>When:</b> General Availability as of <b>February 10, 2026</b>. Private preview began December 2025.</li>
+<li><b>Impact:</b> Qlik Answers <b>replaces Insight Advisor and Insight Advisor Chat</b> in enabled tenants &mdash; this is a tenant-wide change.</li>
+<li><b>Key Requirement:</b> Tenant admins must <b>opt in to cross-region data processing</b> to enable the agentic experience.</li>
+<li><b>New Capabilities:</b> Multi-step agentic reasoning, visual + narrative responses, MCP Server for third-party AI assistants (Claude, ChatGPT), Discovery Agent for anomaly detection.</li>
+</ul></div>
+<div class="alert alert-info"><b>Sources:</b><br>
+<a href="https://www.businesswire.com/news/home/20260210837577/en/" target="_blank">Qlik GA Press Release (Feb 2026)</a> |
+<a href="https://help.qlik.com/en-US/cloud-services/Subsystems/Hub/Content/Sense_Hub/QlikAnswers/Qlik-Answers.htm" target="_blank">Qlik Answers &mdash; Qlik Cloud Help</a> |
+<a href="https://www.qlik.com/blog/a-vision-for-the-future-qliks-new-agentic-ai-experience" target="_blank">Qlik Agentic AI Vision Blog</a>
+</div>
+</section>
+
+<section id="s1-2">
+<h2>1.2 Latest Capability: Structured Data in Qlik Answers</h2>
+<h3>What Changed</h3>
+<p>Qlik Answers evolved from a <b>document-only Q&amp;A chatbot</b> (2024) into a full <b>agentic analytics platform</b> that works across both structured application data and unstructured documents.</p>
+<p>The agentic experience is delivered through <b>Qlik Answers</b> as the unified conversational interface, powered by:</p>
+<ul>
+<li><b>Qlik Analytics Engine</b> &mdash; performs governed, context-preserving calculations on structured app data</li>
+<li><b>Specialized AI Agents</b> &mdash; handle multi-step reasoning, planning, and orchestration</li>
+<li><b>RAG (Retrieval Augmented Generation)</b> &mdash; retrieves relevant passages from curated knowledge bases</li>
+<li><b>LLM Reasoning</b> &mdash; synthesizes insights into rich narrative and visual responses with citations</li>
+</ul>
+<h3>Key Components</h3>
+<div class="cols">
+<div><h4>Qlik Answers (Core)</h4><ul>
+<li>Unified conversational interface</li><li>Structured + unstructured data</li><li>Always-on side panel</li><li>Citations and reasoning explanations</li><li>Embeddable in external apps</li>
+</ul></div>
+<div><h4>Discovery Agent</h4><ul>
+<li>Continuously monitors key measures</li><li>Surfaces anomalies and shifts</li><li>Proactive alerting</li><li>Planned rollout shortly after GA</li>
+</ul></div>
+<div><h4>MCP Server</h4><ul>
+<li>Exposes Qlik at engine, tool, and agent levels</li><li>Third-party AI assistants (Claude, ChatGPT)</li><li>Secure access to governed data</li><li>Generally available Feb 2026</li>
+</ul></div></div>
+<hr class="section-divider">
+<h3>How Structured Data Works in Qlik Answers</h3>
+<pre class="mermaid">
+sequenceDiagram
+    participant User
+    participant QA as Qlik Answers
+    participant Agent as AI Agent
+    participant QAE as Qlik Analytics Engine
+    participant KB as Knowledge Base (RAG)
+    participant LLM as LLM
+    User->>QA: Ask analytical question
+    QA->>Agent: Route to appropriate agent
+    Agent->>QAE: Execute calculations on app data
+    QAE-->>Agent: Structured results
+    Agent->>KB: Retrieve relevant documents
+    KB-->>Agent: Document passages + citations
+    Agent->>LLM: Synthesize structured + unstructured
+    LLM-->>Agent: Rich narrative + reasoning
+    Agent-->>QA: Response with visuals + citations
+    QA-->>User: Display narrative, charts, sheets
+</pre>
+<h3>Structured Data Preparation</h3>
+<ol>
+<li><b>Prepare the Qlik Sense app</b> &mdash; ensure the data model is clean, with proper field names and associations</li>
+<li><b>Add the app as a data source</b> in the Qlik Answers assistant configuration</li>
+<li><b>Combine with knowledge bases</b> (optional) &mdash; adding unstructured documents provides richer context</li>
+<li><b>Define synonyms</b> &mdash; the Synonyms vocabulary tab remains available to help Qlik Answers interpret field names</li>
+</ol>
+<blockquote><b>Note:</b> Business logic features like Packages, Hierarchies, Behaviors, and Calendar periods are <b>not available</b> in the agentic experience (these were Insight Advisor features).</blockquote>
+</section>
+
+<section id="s1-3">
+<h2>1.3 Requirements &amp; Permissions for Tenant Administrators</h2>
+<div class="alert alert-error"><b>Critical:</b> Enabling Qlik Answers agentic experience is a <b>tenant-wide change</b> that replaces Insight Advisor and Insight Advisor Chat. This cannot be done per-app or per-user &mdash; it affects the entire tenant.</div>
+<h3>Step 1: Enable Cross-Region Data Processing</h3>
+<div class="req-box">
+<b>Path:</b> Administration activity center &rarr; Settings &rarr; Tenant &rarr; AI features in Qlik<br><br>
+<b>Action:</b> Toggle <b>"Enable cross-region data processing"</b> to ON<br><br>
+<b>Confirmation:</b> Check the authorization checkbox confirming you are authorized, then click <b>Confirm &rarr; Submit</b><br><br>
+<b>What it does:</b> Allows Qlik Cloud to temporarily send data to AWS regions where AI processing services are hosted (currently AWS US East). Data is processed and results returned &mdash; data is not stored in the remote region.
+</div>
+<h3>Step 2: Configure Permissions</h3>
+<div class="req-box"><b>Path:</b> Administration &rarr; Manage users &rarr; Permissions &rarr; Custom roles<br><br>
+Once cross-region processing is enabled, these permissions default to <b>"Not allowed"</b> and must be explicitly granted:</div>
+<table>
+<tr><th>Permission</th><th>Description</th><th>Default</th><th>Category</th></tr>
+<tr><td>Data analysis</td><td>Analyze data with Qlik Answers (core analytics capability)</td><td>Not allowed</td><td>Tenant-level</td></tr>
+<tr><td>Qlik product help</td><td>Access documentation via Qlik Answers</td><td>Not allowed</td><td>Tenant-level</td></tr>
+<tr><td>Qlik MCP server access</td><td>Allow third-party AI assistants to connect via MCP</td><td>Not allowed</td><td>Tenant-level</td></tr>
+<tr><td>Manage assistants</td><td>Create and manage Qlik Answers assistants</td><td>Not allowed</td><td>Custom Role</td></tr>
+<tr><td>Manage knowledge bases</td><td>Create, manage, index, and search knowledge bases</td><td>Not allowed</td><td>Custom Role</td></tr>
+<tr><td>Index knowledge bases</td><td>Trigger indexing of knowledge bases</td><td>Not allowed</td><td>Custom Role</td></tr>
+<tr><td>Search knowledge bases</td><td>Access knowledge bases when asking questions</td><td>Not allowed</td><td>Custom Role</td></tr>
+</table>
+<h3>Step 3: Configure Space-Level Access</h3>
+<p>Users need minimum space access across these areas:</p>
+<div class="cols"><div>
+<h4>Shared Spaces</h4>
+<table><tr><th>Space</th><th>Required Permissions</th></tr>
+<tr><td>Assistant space</td><td>Can view + Can consume data</td></tr>
+<tr><td>Knowledge base space</td><td>Can consume data</td></tr>
+<tr><td>Data source spaces</td><td>Can consume data</td></tr></table>
+</div><div>
+<h4>Managed Spaces</h4>
+<table><tr><th>Space</th><th>Required Permissions</th></tr>
+<tr><td>Assistant space</td><td>Has restricted view + Can consume data</td></tr>
+<tr><td>Knowledge base space</td><td>Has restricted view + Can consume data</td></tr>
+<tr><td>Data source spaces</td><td>Can consume data</td></tr></table>
+</div></div>
+<hr class="section-divider">
+<h3>Step 4: Prerequisite &mdash; Disable Legacy Data Analysis</h3>
+<div class="alert alert-warning"><b>Before enabling cross-region processing</b>, ensure the <b>"Data analysis"</b> permission (under Insight Advisor) is set to <b>"Not allowed"</b> in User Default settings and any custom roles that contain this permission.</div>
+<h3>Regional Availability</h3>
+<table><tr><th>Region</th><th>Agentic Experience</th></tr>
+<tr><td>US East (N. Virginia)</td><td>Yes</td></tr>
+<tr><td>Europe (Frankfurt)</td><td>Yes</td></tr>
+<tr><td>Europe (Ireland)</td><td>Yes</td></tr>
+<tr><td>Asia Pacific (Mumbai)</td><td>Yes</td></tr>
+<tr><td>Asia Pacific (Singapore)</td><td>Yes</td></tr>
+<tr><td>Asia Pacific (Sydney)</td><td>Yes</td></tr>
+<tr><td>Asia Pacific (Tokyo)</td><td>Yes</td></tr>
+<tr><td>Europe (London)</td><td>No (legacy only)</td></tr></table>
+<h3>Operational Limits</h3>
+<table><tr><th>Limit</th><th>Value</th></tr>
+<tr><td>Max file size</td><td>50 MiB</td></tr>
+<tr><td>Concurrent documents per data source</td><td>10</td></tr>
+<tr><td>Searches per minute per subscription</td><td>50</td></tr>
+<tr><td>Assistant questions per minute</td><td>20</td></tr>
+<tr><td>Monthly question quota</td><td>Resets each month (does not carry over)</td></tr>
+<tr><td>Indexed page size</td><td>~2,000 characters of text data</td></tr></table>
+<p><b>Sources:</b>
+<a href="https://help.qlik.com/en-US/cloud-services/Subsystems/Hub/Content/Sense_Hub/Admin/cross-region-data-processing.htm" target="_blank">Enabling Cross-Region Data Processing</a> |
+<a href="https://help.qlik.com/en-US/cloud-services/Subsystems/Hub/Content/Sense_Hub/QlikAnswers/qlik-answers-permissions.htm" target="_blank">Access and Permissions</a> |
+<a href="https://help.qlik.com/en-US/cloud-services/Subsystems/Hub/Content/Sense_Hub/QlikAnswers/administering-qlik-answers.htm" target="_blank">Deploying and Administering</a></p>
+</section>
+
+<section id="s1-4">
+<h2>1.4 Comparison: Agentic (Structured + Unstructured) vs Previous Version</h2>
+<table>
+<tr><th>Aspect</th><th>Previous Qlik Answers (2024)</th><th>Agentic Qlik Answers (Feb 2026)</th></tr>
+<tr><td>Data Sources</td><td>Unstructured only (PDF, DOCX, TXT, HTML)</td><td>Structured (Qlik apps) AND unstructured (documents)</td></tr>
+<tr><td>Architecture</td><td>RAG (Retrieval Augmented Generation)</td><td>Agentic framework + RAG + Qlik Analytics Engine</td></tr>
+<tr><td>Analytics Engine</td><td>None &mdash; document Q&amp;A only</td><td>Full Qlik Analytics Engine calculations</td></tr>
+<tr><td>Output Format</td><td>Text-based answers with document citations</td><td>Rich narrative AND visual responses (sheets, charts)</td></tr>
+<tr><td>Reasoning</td><td>Single-step document retrieval</td><td>Multi-step agentic reasoning across data + documents</td></tr>
+<tr><td>Combined Insights</td><td>N/A (documents only)</td><td>Combines analytical insights with document context + LLM knowledge</td></tr>
+<tr><td>Cross-Region Processing</td><td>Optional (can stay in-region)</td><td>Required (must opt in)</td></tr>
+<tr><td>Trust &amp; Transparency</td><td>Citations for document sources</td><td>Citations + explanations of reasoning + governed calculations</td></tr>
+<tr><td>Context Awareness</td><td>Standalone chat</td><td>Always-on side panel with context awareness</td></tr>
+<tr><td>Embedding</td><td>Basic</td><td>Embeddable agentic experiences for external apps</td></tr>
+<tr><td>MCP Integration</td><td>Not available</td><td>Qlik MCP Server for third-party AI assistants</td></tr>
+<tr><td>Business Logic</td><td>N/A</td><td>Synonyms only (Packages, Hierarchies, Behaviors removed)</td></tr>
+</table>
+<hr class="section-divider">
+<h3>Key Takeaways</h3>
+<div class="cols"><div>
+<div class="alert alert-success"><b>Advantages of the New Agentic Version:</b><ul>
+<li>Deep analytical capabilities via Qlik Analytics Engine</li>
+<li>Multi-step reasoning instead of simple document retrieval</li>
+<li>Visual + narrative responses</li>
+<li>MCP opens Qlik to external AI ecosystem</li>
+<li>Combined structured + unstructured insights</li>
+</ul></div></div><div>
+<div class="alert alert-warning"><b>Trade-offs to Consider:</b><ul>
+<li>Cross-region data processing is mandatory</li>
+<li>Loss of some business logic features (Packages, Hierarchies, etc.)</li>
+<li>Cannot run alongside Insight Advisor on same tenant</li>
+<li>Requires careful migration planning for existing analyses</li>
+</ul></div></div></div>
+</section>
+
+<section id="s1-5">
+<h2>1.5 Comparison: Qlik Answers (Agentic) vs Insight Advisor</h2>
+<div class="alert alert-error"><b>Qlik Answers REPLACES Insight Advisor</b> in tenants where the agentic experience is enabled. Insight Advisor and Insight Advisor Chat options and settings are <b>hidden tenant-wide</b>.</div>
+<table>
+<tr><th>Aspect</th><th>Insight Advisor</th><th>Qlik Answers (Agentic)</th></tr>
+<tr><td>Scope</td><td>Structured data within Qlik Sense apps only</td><td>Structured app data AND unstructured documents</td></tr>
+<tr><td>Interface</td><td>Search-based + chat-based within apps</td><td>Unified conversational agentic interface across platform</td></tr>
+<tr><td>Analytics Approach</td><td>Generates suggested visualizations from NL queries</td><td>Deep agentic multi-step exploration with sheets/charts/artifacts</td></tr>
+<tr><td>AI Architecture</td><td>Augmented analytics with some GenAI narrative</td><td>Full agentic framework with specialized agents + LLM + Qlik Engine</td></tr>
+<tr><td>Business Logic Support</td><td>Full: Packages, Hierarchies, Behaviors, Calendar periods, Vocabulary</td><td>Synonyms only (Packages, Hierarchies, Behaviors, Calendar periods removed)</td></tr>
+<tr><td>Data Sources</td><td>Only Qlik Sense app data models</td><td>Qlik app data + knowledge bases of unstructured documents</td></tr>
+<tr><td>Output</td><td>Visualizations and NL narratives within app context</td><td>Rich narrative + visuals + citations + reasoning explanations</td></tr>
+<tr><td>MCP / External Access</td><td>Not available</td><td>MCP Server enables third-party AI assistants</td></tr>
+<tr><td>Contextual Side Panel</td><td>No</td><td>Yes &mdash; always-on side panel with context awareness</td></tr>
+<tr><td>Embedding</td><td>Limited</td><td>Full embeddable agentic experiences</td></tr>
+<tr><td>Status</td><td>Being replaced by Qlik Answers</td><td>Generally Available (Feb 2026)</td></tr>
+</table>
+<hr class="section-divider">
+<h3>Does Qlik Answers Supersede Insight Advisor?</h3>
+<p><b>Yes.</b> Based on Qlik's official documentation:</p>
+<blockquote>"Qlik Answers replaces Insight Advisor and Insight Advisor Chat in tenants enabled for Qlik Answers."</blockquote>
+<p><b>Specifically:</b></p>
+<ul>
+<li>Insight Advisor and Insight Advisor Chat options are <b>hidden tenant-wide</b> for applications</li>
+<li>Users are directed to <b>use Qlik Answers</b> to explore data and create sheets/charts</li>
+<li>Certain <b>business logic tabs are removed</b> (Packages, Hierarchies, Behaviors, Calendar periods)</li>
+<li>Once enabled, you <b>cannot edit configurations</b> in the hidden tabs</li>
+<li>This is a <b>tenant-wide change</b> &mdash; cannot run both simultaneously</li>
+</ul>
+<p><b>However, it is not a forced migration.</b> Tenants that do not opt in to cross-region data processing continue to have Insight Advisor. The legacy Qlik Answers experience (unstructured only, in-region) also remains available.</p>
+<div class="alert alert-warning"><b>Migration Warning:</b> If you have existing analyses that rely on business logic settings (custom Behaviors, Hierarchies, Calendar periods), you will <b>not be able to modify</b> these after enabling Qlik Answers. Plan your migration carefully.</div>
+<div class="alert alert-info"><b>Clarification:</b> "Business logic" refers specifically to the <b>Logical Model</b> settings that govern Insight Advisor's behavior (found under <em>App Edit &gt; Logical Model &gt; Business Logic</em>).
+<table><tr><th>Setting</th><th>What It Controls</th></tr>
+<tr><td><b>Behaviors</b></td><td>Rules telling Insight Advisor how to treat fields (e.g., default aggregations, preferred dimensions)</td></tr>
+<tr><td><b>Hierarchies</b></td><td>Logical drill-down groupings for Insight Advisor NL query interpretation</td></tr>
+<tr><td><b>Calendar periods</b></td><td>Time-based analysis periods for Insight Advisor suggestions</td></tr>
+<tr><td><b>Packages</b></td><td>Groups of related fields for Insight Advisor analysis</td></tr>
+<tr><td><b>Synonyms</b></td><td>Alternative names for fields &mdash; <b>the only setting carried over to Qlik Answers</b></td></tr></table>
+<p><b>This does NOT affect regular app objects.</b> Drill-down dimensions, master items, variables, expressions, and all other standard app-level objects are completely unaffected.</p></div>
+</section>
+
+<section id="s1-6">
+<h2>1.6 Demo: Qlik Answers Agentic Analytics</h2>
+<div class="demo-placeholder"><strong>Qlik Answers &mdash; Structured Data Q&amp;A Demo</strong><br>Screenshots and animated GIFs would be embedded here from live Qlik Cloud environment.<br><a href="https://www.qlik.com/us/products/qlik-answers" target="_blank">Watch Official Demo &rarr;</a></div>
+<h3>Demo Walkthrough</h3>
+<ol>
+<li><b>Open Qlik Answers</b> from the always-on side panel in Qlik Cloud</li>
+<li><b>Ask a structured data question</b>: <em>"What were the top 5 departments by turnover rate last quarter?"</em></li>
+<li><b>Observe</b>: Qlik Answers routes to the AI agent, which queries the Qlik Analytics Engine</li>
+<li><b>Review the response</b>: Narrative summary + auto-generated chart + citations</li>
+<li><b>Follow up</b>: <em>"How does that compare to the same quarter last year?"</em> &mdash; multi-step reasoning</li>
+<li><b>Combine data types</b>: <em>"What does our employee handbook say about retention programs?"</em> &mdash; switches to unstructured data via knowledge base</li>
+</ol>
+<div class="demo-placeholder"><strong>Qlik MCP Server &mdash; Claude Desktop Integration Demo</strong><br>Screenshots and animated GIFs would be embedded here from live Qlik Cloud environment.<br><a href="https://community.qlik.com/t5/Integration-Extension-APIs/Qlik-Cloud-Development-with-Claude-Desktop-and-MCP-Servers-Video/td-p/2535891" target="_blank">Watch Official Demo &rarr;</a></div>
+<p><b>Official Resources:</b></p>
+<ul>
+<li><a href="https://www.qlik.com/us/products/qlik-answers" target="_blank">Qlik Answers Product Page</a></li>
+<li><a href="https://www.qlik.com/blog/a-vision-for-the-future-qliks-new-agentic-ai-experience" target="_blank">Qlik Agentic AI Experience Blog</a></li>
+<li><a href="https://community.qlik.com/t5/Integration-Extension-APIs/Qlik-Cloud-Development-with-Claude-Desktop-and-MCP-Servers-Video/td-p/2535891" target="_blank">Qlik MCP Community Video</a></li>
+</ul>
+<hr class="section-divider">
+<h3>Embedding Qlik Answers</h3>
+<p>Qlik Answers can be embedded into external web applications using <code>qlik-embed</code> with OAuth impersonation. The <code>ai/assistant</code> component type allows embedding the full Qlik Answers conversational interface into any web app, providing governed AI analytics outside the Qlik Cloud hub.</p>
+<ul><li><a href="https://github.com/qlik-oss/qlik-cloud-embed-oauth-impersonation" target="_blank">Embedding Qlik Answers &mdash; OAuth Impersonation Example (GitHub)</a></li></ul>
+<hr class="section-divider">
+<h3>Monitoring: Qlik Cloud Answers Analyzer</h3>
+<p>The <b>Answers Analyzer</b> is a community-supported Qlik Sense monitoring app (<a href="https://github.com/qlik-oss/qlik-cloud-answers-analyzer" target="_blank">qlik-oss/qlik-cloud-answers-analyzer</a>) that provides operational analytics for Qlik Answers deployments:</p>
+<table><tr><th>Capability</th><th>Description</th></tr>
+<tr><td><b>User Question Tracking</b></td><td>Monitor what questions users are asking across knowledgebases and assistants</td></tr>
+<tr><td><b>Behavioral Analysis</b></td><td>Analyze question types and content usage patterns</td></tr>
+<tr><td><b>Knowledgebase Optimization</b></td><td>Identify inaccurate, unused, and unreferenced documents</td></tr>
+<tr><td><b>Quota Monitoring</b></td><td>Track knowledgebase page sizes relative to quotas</td></tr>
+<tr><td><b>Index Freshness</b></td><td>Monitor how recently knowledgebases have been re-indexed</td></tr>
+<tr><td><b>Alerting</b></td><td>Set alerts on metrics (e.g., stale knowledgebases)</td></tr></table>
+<p><b>Requires:</b> TenantAdmin + AuditAdmin roles. Part of the <a href="https://github.com/qlik-oss/qlik-cloud-monitoring-apps" target="_blank">Qlik Cloud Monitoring Apps</a> suite.</p>
+</section>
+
+<!-- PART 2 -->
+<h1 class="part-heading">Part 2: Qlik Predict &mdash; Automated Machine Learning</h1>
+
+<section id="s2-1">
+<h2>2.1 Executive Summary</h2>
+<div class="exec-summary"><h3>Executive Summary &mdash; Qlik Predict</h3>
+<ul>
+<li><b>What:</b> Qlik Predict (formerly Qlik AutoML) is a <b>no-code automated machine learning</b> platform embedded in Qlik Cloud Analytics for building, training, and deploying predictive models.</li>
+<li><b>Capabilities:</b> Binary/multiclass classification, regression, and <b>multivariate time series forecasting</b> (GA Oct 2025) with GPU-accelerated deep learning.</li>
+<li><b>Explainability:</b> Built-in <b>SHAP-based explainability</b> shows which features drive predictions at both global and row levels.</li>
+<li><b>Deployment:</b> Three methods &mdash; batch predictions, real-time API, and Qlik Predict analytics connector for in-app integration.</li>
+<li><b>HR Applications:</b> Ideal for predicting employee turnover, promotions, lateral movements, absenteeism, compensation equity, and workforce demand forecasting.</li>
+</ul></div>
+</section>
+
+<section id="s2-2">
+<h2>2.2 How Qlik Predict Works</h2>
+<h3>End-to-End Workflow</h3>
+<pre class="mermaid">
+graph LR
+    A["1. Data Loading"] --> B["2. Experiment Creation"]
+    B --> C["3. Automated Training"]
+    C --> D["4. Model Evaluation"]
+    D --> E["5. Deployment"]
+    E --> F["6. Predictions"]
+    F --> G["7. Visualization"]
+</pre>
+<h3>Step-by-Step Process</h3>
+<p><b>1. Data Loading &amp; Profiling</b></p>
+<ul><li>Upload structured, tabular datasets (CSV, QVD, XLSX)</li><li>System automatically analyzes and preprocesses data</li><li>Displays statistics and insights about each column</li></ul>
+<p><b>2. Experiment Creation</b></p>
+<ul><li>Select a target column (the outcome to predict)</li>
+<li>Qlik Predict auto-detects the problem type:
+<ul><li><b>Binary classification</b> &mdash; target has 2 unique values</li><li><b>Multiclass classification</b> &mdash; target has 3-10 string values</li><li><b>Regression</b> &mdash; numerical target</li><li><b>Time series</b> &mdash; temporal forecasting with covariates</li></ul></li></ul>
+<p><b>3. Automated Model Training</b></p>
+<ul><li>Multiple algorithms train simultaneously</li>
+<li>Intelligent model optimization handles: feature selection, feature transformations (Yeo-Johnson, binning), anomaly detection (down-weights outliers), class balancing (oversampling when imbalance &gt; 95:5), gradual training data scaling</li></ul>
+<p><b>4. Model Evaluation &amp; Scoring</b></p>
+<ul><li>Models ranked by performance metrics</li><li>SHAP-based explainability charts generated</li><li>Feature importance visualization</li></ul>
+<p><b>5. Deployment</b></p>
+<ul><li>Deploy best model to ML deployment environment</li><li>Model approval step for governance</li><li>Model versioning and swapping supported</li></ul>
+<p><b>6. Prediction &amp; Visualization</b></p>
+<ul><li>Generate batch predictions on new data</li><li>Real-time predictions via API (300 req/min)</li><li>Qlik Predict analytics connector (200K rows/request)</li><li>Load results into Qlik Sense apps for interactive dashboards</li></ul>
+<h3>Deployment Architecture</h3>
+<pre class="mermaid">
+graph TB
+    subgraph "Qlik Cloud"
+        EXP["Experiment - Train Models"] --> DEP["ML Deployment - Approved Model"]
+        DEP --> BATCH["Batch Predictions"]
+        DEP --> RT["Real-Time API"]
+        DEP --> CON["Analytics Connector"]
+    end
+    BATCH --> QS["Qlik Sense App Dashboard"]
+    RT --> QS
+    CON --> QS
+    RT --> EXT["External Applications"]
+    subgraph "Automation"
+        QS --> AUTO["Qlik Automate - Trigger Actions"]
+        AUTO --> ALERT["Alerts and Notifications"]
+        AUTO --> WB["Write-Back to Sources"]
+    end
+</pre>
+<p><b>Key Constraints:</b></p>
+<ul><li>Max 500 columns per dataset</li><li>API rate limit: 300 requests/minute</li><li>Analytics connector: 200,000 rows per request (batched in 2,000 row chunks)</li><li>Not available on Qlik Cloud Government</li><li>Available in Premium and Enterprise tiers</li></ul>
+</section>
+
+<section id="s2-3">
+<h2>2.3 ML Algorithms &amp; Models</h2>
+<div class="tabs">
+<div class="tab-list">
+<button class="tab-btn active">Classification</button>
+<button class="tab-btn">Regression</button>
+<button class="tab-btn">Time Series</button>
+</div>
+<div class="tab-panel active">
+<h4>Classification Algorithms (Binary &amp; Multiclass)</h4>
+<table><tr><th>Algorithm</th><th>Category</th><th>Strengths</th></tr>
+<tr><td>Logistic Regression</td><td>Linear</td><td>Good at extrapolating, interpretable</td></tr>
+<tr><td>Lasso Regression</td><td>Linear</td><td>Feature selection via L1 regularization</td></tr>
+<tr><td>Elastic Net Regression</td><td>Linear</td><td>Combines L1 + L2 regularization</td></tr>
+<tr><td>Gaussian Naive Bayes</td><td>Probabilistic</td><td>Handles non-linear patterns</td></tr>
+<tr><td>Random Forest</td><td>Ensemble</td><td>Non-linear trends, variable interactions</td></tr>
+<tr><td>XGBoost</td><td>Ensemble</td><td>Strong non-linear pattern recognition</td></tr>
+<tr><td>LightGBM</td><td>Ensemble</td><td>Fast training on large datasets</td></tr>
+<tr><td>CatBoost</td><td>Ensemble</td><td>Native categorical feature handling</td></tr></table>
+</div>
+<div class="tab-panel">
+<h4>Regression Algorithms</h4>
+<table><tr><th>Algorithm</th><th>Category</th><th>Strengths</th></tr>
+<tr><td>Linear Regression</td><td>Linear</td><td>Extrapolation, linear trends</td></tr>
+<tr><td>SGD Regression</td><td>Linear</td><td>Scalable to large datasets</td></tr>
+<tr><td>Random Forest Regression</td><td>Ensemble</td><td>Non-linear trend detection</td></tr>
+<tr><td>XGBoost Regression</td><td>Ensemble</td><td>High accuracy for complex patterns</td></tr>
+<tr><td>LightGBM Regression</td><td>Ensemble</td><td>Fast, memory-efficient</td></tr>
+<tr><td>CatBoost Regression</td><td>Ensemble</td><td>Native categorical feature handling</td></tr></table>
+</div>
+<div class="tab-panel">
+<h4>Time Series Algorithms (Deep Learning, GPU-Accelerated)</h4>
+<div class="alert alert-info">Multivariate Time Series forecasting reached GA in October 2025.</div>
+<table><tr><th>Algorithm</th><th>Type</th><th>Best For</th></tr>
+<tr><td>DeepAR</td><td>Deep learning / probabilistic</td><td>Retail, supply chain; probabilistic forecasting</td></tr>
+<tr><td>TSMixer</td><td>Transformer-inspired</td><td>Balances accuracy and speed</td></tr>
+<tr><td>TiDE</td><td>Deep learning encoder</td><td>Long-term dependencies in large datasets</td></tr></table>
+</div></div>
+<hr class="section-divider">
+<h3>Model Category Trade-offs</h3>
+<div class="cols">
+<div><b>Linear Models</b><ul><li>Good at extrapolating</li><li>Interpretable</li><li>Struggle with non-linear patterns</li></ul></div>
+<div><b>Ensemble Models</b><ul><li>Non-linear patterns</li><li>Variable interactions</li><li>Poor at extrapolating beyond training range</li></ul></div>
+<div><b>Time Series Models</b><ul><li>Multivariate targets</li><li>Covariate support</li><li>Require GPU resources</li></ul></div>
+</div>
+</section>
+
+<section id="s2-4">
+<h2>2.4 HR Use Cases for Qlik Predict</h2>
+<div class="tabs">
+<div class="tab-list">
+<button class="tab-btn active">Employee Turnover</button>
+<button class="tab-btn">Promotion Prediction</button>
+<button class="tab-btn">Lateral Movement</button>
+</div>
+<div class="tab-panel active">
+<h4>Predicting Employee Turnover / Attrition</h4>
+<p><b>Problem Type:</b> Binary Classification (Stayed vs. Left)</p>
+<p><b>Training Data Features:</b></p>
+<table><tr><th>Feature Category</th><th>Example Fields</th></tr>
+<tr><td>Demographics</td><td>Tenure, commute distance, education level</td></tr>
+<tr><td>Job Details</td><td>Department, role, job level, years in current role</td></tr>
+<tr><td>Performance</td><td>Performance rating (last 3 years), project outcomes</td></tr>
+<tr><td>Engagement</td><td>Engagement survey scores, satisfaction index, eNPS</td></tr>
+<tr><td>Compensation</td><td>Base salary, bonus %, last raise %, salary band position</td></tr>
+<tr><td>Work Patterns</td><td>Overtime hours, remote work frequency, PTO usage</td></tr>
+<tr><td>Development</td><td>Training completions, certifications, mentoring participation</td></tr>
+<tr><td>Manager</td><td>Manager tenure, manager span of control, manager change count</td></tr></table>
+<p><b>Implementation Steps:</b></p>
+<ol>
+<li>Prepare historical employee dataset with known attrition outcomes</li>
+<li>Set target column to attrition flag (Yes/No)</li>
+<li>Qlik Predict trains XGBoost, Random Forest, LightGBM, CatBoost, Logistic Regression, etc.</li>
+<li>Review SHAP values to understand top attrition drivers</li>
+<li>Deploy model and generate risk scores for current employees</li>
+<li>Build Qlik Sense dashboard with flight risk indicators by department, team, tenure band</li>
+<li>Set up Qlik Automate alerts when high-value employees are flagged at-risk</li>
+</ol>
+<p><b>Intervention Strategies (Informed by Predictions):</b></p>
+<ul>
+<li>Career development conversations for employees with high "years since promotion" SHAP values</li>
+<li>Workload rebalancing for employees where "overtime hours" is a top driver</li>
+<li>Compensation adjustments where "salary band position" drives risk</li>
+<li>Lateral move offers &mdash; one organization reduced attrition to zero for 6 months by offering lateral moves to 40% of at-risk employees</li>
+</ul>
+</div>
+<div class="tab-panel">
+<h4>Predicting Promotions</h4>
+<p><b>Problem Type:</b> Binary Classification (Promoted vs. Not Promoted) or Multiclass Classification (Promotion Level)</p>
+<p><b>Key Features:</b></p>
+<ul>
+<li>Performance ratings over multiple review cycles</li><li>Training completion rates and skill assessments</li><li>Tenure in current role vs. organizational average</li><li>Project outcomes and 360-degree feedback scores</li><li>Education level and professional certifications</li><li>Cross-functional project participation</li>
+</ul>
+<p><b>Value:</b></p>
+<ul><li>Identifies high-potential employees for succession planning</li><li>Ensures equitable promotion practices across demographics</li><li>Predicts which employees are ready for advancement</li><li>Reduces bias by surfacing data-driven readiness indicators</li></ul>
+</div>
+<div class="tab-panel">
+<h4>Predicting Lateral Movements</h4>
+<p><b>Problem Type:</b> Multiclass Classification or Regression</p>
+<p><b>Modeling Approach:</b> Use historical data with Markov-style transitions to predict employee movement patterns including voluntary/involuntary turnover, retirements, and internal mobility.</p>
+<p><b>Key Features:</b></p>
+<ul><li>Current role tenure and breadth of experience</li><li>Cross-functional project participation</li><li>Expressed career interests (from development plans)</li><li>Internal application history</li><li>Skill adjacency mapping</li><li>Peer network analysis</li></ul>
+<p><b>Use Cases:</b></p>
+<ul><li>Identify employees who would benefit from a role change before they become disengaged</li><li>Map internal talent pools to open positions</li><li>Predict which departments will have internal transfer demand</li><li>Build "career path probability" visualizations for employees</li></ul>
+</div></div>
+</section>
+
+<section id="s2-5">
+<h2>2.5 People Analytics Use Cases &mdash; Ideation</h2>
+<p>Beyond turnover, promotions, and lateral moves, here are additional use cases a people analytics team can deploy with Qlik Predict:</p>
+<div class="use-case-card"><strong>Flight Risk Scoring (60-90 day window)</strong> &mdash; <em>Binary Classification</em><br>Score each employee's probability of leaving within a specific window, enabling targeted retention interventions. Unlike general attrition models, this is time-bounded for actionability.</div>
+<div class="use-case-card"><strong>Absenteeism Prediction</strong> &mdash; <em>Regression / Classification</em><br>Predict employees likely to have high absenteeism. Correlate with engagement data, health benefits usage, workload metrics, and seasonal patterns.</div>
+<div class="use-case-card"><strong>Employee Engagement Forecasting</strong> &mdash; <em>Regression</em><br>Predict future engagement scores based on survey trends, manager changes, workload shifts, and organizational restructuring impacts.</div>
+<div class="use-case-card"><strong>Recruitment Success Prediction</strong> &mdash; <em>Binary Classification</em><br>Predict which candidates will be successful hires (tenure &gt; 1 year + performance rating &gt; 3) based on application data, interview scores, and source channel.</div>
+<div class="use-case-card"><strong>Time-to-Hire Forecasting</strong> &mdash; <em>Time Series (MVTS)</em><br>Predict how long open positions will take to fill based on role type, market conditions, location, seniority level, and historical hiring patterns.</div>
+<div class="use-case-card"><strong>Compensation Equity Analysis</strong> &mdash; <em>Regression</em><br>Predict expected salary based on role, experience, performance, location to identify pay inequities.</div>
+<div class="use-case-card"><strong>Training ROI Prediction</strong> &mdash; <em>Regression</em><br>Predict performance improvement from specific training programs to optimize L&amp;D investment. Which programs yield the highest performance uplift?</div>
+<div class="use-case-card"><strong>Workforce Demand Forecasting</strong> &mdash; <em>Time Series (MVTS)</em><br>Use multivariate time series to forecast headcount needs across departments, factoring in seasonality, growth targets, attrition rates, and market conditions.</div>
+<div class="use-case-card"><strong>Succession Planning</strong> &mdash; <em>Classification</em><br>Identify employees with potential for leadership based on career trajectories, competencies, skill development velocity, and leadership assessment scores.</div>
+<div class="use-case-card"><strong>Internal Mobility Optimization</strong> &mdash; <em>Multiclass Classification</em><br>Predict optimal internal moves for employees based on skills, interests, performance history, and organizational needs. Match talent supply to demand.</div>
+<div class="use-case-card"><strong>New Hire Onboarding Success</strong> &mdash; <em>Binary Classification</em><br>Predict which new hires will reach full productivity within expected timeframes based on onboarding completion, buddy assignment, early check-in sentiment, and role complexity.</div>
+<div class="use-case-card"><strong>Benefits Utilization Prediction</strong> &mdash; <em>Regression</em><br>Predict healthcare and benefits costs per employee segment for better budget forecasting and benefits plan design.</div>
+<div class="use-case-card"><strong>Team Performance Forecasting</strong> &mdash; <em>Regression</em><br>Predict team-level performance outcomes based on team composition, diversity of skills, manager effectiveness, and workload distribution.</div>
+</section>
+
+<section id="s2-6">
+<h2>2.6 Demo: Qlik Predict</h2>
+<div class="demo-placeholder"><strong>Qlik Predict &mdash; Experiment Creation &amp; Model Training</strong><br>Screenshots and animated GIFs would be embedded here from live Qlik Cloud environment.<br><a href="https://techfieldday.com/video/qlik-self-service-ai-demo/" target="_blank">Watch Official Demo &rarr;</a></div>
+<h3>Demo Walkthrough: Employee Attrition Prediction</h3>
+<ol>
+<li><b>Upload Data</b>: Load <code>Employee_Attrition_Training.csv</code> with historical outcomes</li>
+<li><b>Create Experiment</b>: Select <code>Attrition</code> as target column &rarr; auto-detected as Binary Classification</li>
+<li><b>Review Models</b>: Qlik Predict trains 8 algorithms &mdash; XGBoost typically wins for tabular HR data</li>
+<li><b>SHAP Analysis</b>: See that "YearsInCurrentRole", "OverTime", and "MonthlyIncome" are top drivers</li>
+<li><b>Deploy Model</b>: Approve the best model for production</li>
+<li><b>Generate Predictions</b>: Run batch predictions on current workforce</li>
+<li><b>Visualize</b>: Load into Qlik Sense app with flight risk dashboard</li>
+</ol>
+<div class="demo-placeholder"><strong>Qlik Predict &mdash; SHAP Explainability Dashboard in Qlik Sense</strong><br>Screenshots and animated GIFs would be embedded here from live Qlik Cloud environment.<br><a href="https://help.qlik.com/en-US/cloud-services/Subsystems/Hub/Content/Sense_Hub/AutoML/tutorial-machine-learning.htm" target="_blank">Watch Official Demo &rarr;</a></div>
+<div class="demo-placeholder"><strong>Qlik Predict &mdash; Real-Time What-If Scenario (Promotion Impact on Attrition)</strong><br>Screenshots and animated GIFs would be embedded here from live Qlik Cloud environment.<br><a href="https://help.qlik.com/en-US/cloud-services/Subsystems/Hub/Content/Sense_Hub/AutoML/creating-real-time-predictions.htm" target="_blank">Watch Official Demo &rarr;</a></div>
+<p><b>Official Resources:</b></p>
+<ul>
+<li><a href="https://help.qlik.com/en-US/cloud-services/Subsystems/Hub/Content/Sense_Hub/AutoML/tutorial-machine-learning.htm" target="_blank">Qlik Predict Tutorial</a></li>
+<li><a href="https://www.qlik.com/us/contact-us/demo-request-predict" target="_blank">Request a Qlik Predict Demo</a></li>
+<li><a href="https://techfieldday.com/video/qlik-self-service-ai-demo/" target="_blank">Tech Field Day Demo Video (June 2024)</a></li>
+<li><a href="https://community.qlik.com/t5/Qlik-Predict/Qlik-AutoML-on-Qlik-Cloud-sample-data/td-p/1966212" target="_blank">Community Sample Data</a></li>
+<li><a href="https://www.datavoyagers.net/post/beyond-the-event-horizon-multivariate-time-series-with-qlik-predict" target="_blank">Multivariate Time Series Blog</a></li>
+</ul>
+</section>
+
+<!-- PART 3 -->
+<h1 class="part-heading">Part 3: Application Automations &amp; External LLM Integration</h1>
+
+<section id="s3-1">
+<h2>3.1 Executive Summary</h2>
+<div class="exec-summary"><h3>Executive Summary &mdash; Application Automations &amp; External LLMs</h3>
+<ul>
+<li><b>What:</b> Qlik Application Automations (Qlik Automate) is a <b>no-code workflow automation platform</b> built into Qlik Cloud, enabling integration with external LLMs via REST API calls.</li>
+<li><b>LLM Connectors:</b> Native OpenAI connector + generic API Key connector (for Claude, Cohere, custom endpoints) + <b>8 native analytic connections</b> (OpenAI, Azure OpenAI, Anthropic via Bedrock, Hugging Face, etc.).</li>
+<li><b>Dynamic Updates:</b> Analytic connections in chart expressions respond to user selections in real-time &mdash; changing a selection triggers a new LLM call and updates the visualization.</li>
+<li><b>Embedding:</b> Two patterns &mdash; <b>button-triggered automations</b> (workflow) and <b>analytic connection chart expressions</b> (inline real-time AI).</li>
+<li><b>Fallback Strategy:</b> When Qlik Answers' structured data capabilities are insufficient, external LLMs provide free-form narratives, sentiment analysis, code generation, and custom domain reasoning directly within Qlik apps.</li>
+</ul></div>
+</section>
+
+<section id="s3-2">
+<h2>3.2 Qlik Application Automations (Qlik Automate)</h2>
+<p>Qlik Application Automations are a <b>no-code workflow automation platform</b> (iPaaS) built into Qlik Cloud. They enable users to build automated workflows between Qlik Cloud and external SaaS applications without writing code.</p>
+<div class="cols"><div>
+<h3 class="nb">Core Capabilities</h3>
+<ul>
+<li><b>Visual drag-and-drop builder</b> &mdash; blocks for data processing and logic control</li>
+<li><b>On-demand triggers</b> &mdash; manual or from Qlik Sense buttons</li>
+<li><b>Webhook triggers</b> &mdash; activate from external events</li>
+<li><b>Scheduled automations</b> &mdash; execute at specific times</li>
+<li><b>Pre-built connectors</b> &mdash; Salesforce, Teams, Slack, GitHub, ServiceNow, OpenAI, Hugging Face, etc.</li>
+</ul></div><div>
+<h3 class="nb">Block Types</h3>
+<ul><li><b>Data blocks</b> &mdash; process data (API calls, transforms, read from Qlik app)</li><li><b>Logic blocks</b> &mdash; control flow (conditions, loops, error handling)</li></ul>
+<h3 class="nb">Integration with Qlik Sense</h3>
+<ul><li>Triggered from <b>button actions</b> in Qlik Sense sheets</li><li>Can pass current user <b>selections</b> via temporary bookmarks</li><li>Results can be <b>written back</b> to apps or sent to external systems</li></ul>
+</div></div>
+<pre class="mermaid">
+graph LR
+    subgraph "Triggers"
+        BTN["Button in Qlik Sense"]
+        WH["Webhook"]
+        SCH["Scheduled"]
+    end
+    subgraph "Automation Workflow"
+        T["Trigger"] --> D1["Get Selections"]
+        D1 --> D2["Process Data"]
+        D2 --> L1{"Condition"}
+        L1 -->|Yes| D3["Call External API"]
+        L1 -->|No| D4["Log and Skip"]
+        D3 --> D5["Process Response"]
+    end
+    subgraph "Outputs"
+        D5 --> WB["Write-Back to Qlik"]
+        D5 --> SL["Send to Slack or Teams"]
+        D5 --> EM["Send Email"]
+    end
+    BTN --> T
+    WH --> T
+    SCH --> T
+</pre>
+</section>
+
+<section id="s3-3">
+<h2>3.3 Integrating External LLMs into Qlik Cloud</h2>
+<p>There are <b>three primary mechanisms</b> for calling external LLMs:</p>
+<div class="tabs">
+<div class="tab-list">
+<button class="tab-btn active">Native OpenAI Connector</button>
+<button class="tab-btn">API Key Connector (Any LLM)</button>
+<button class="tab-btn">Analytic Connections (In-App)</button>
+</div>
+<div class="tab-panel active">
+<h4>Native OpenAI Connector (Application Automation)</h4>
+<p>Qlik provides a dedicated OpenAI connector with these blocks:</p>
+<table><tr><th>Block</th><th>Purpose</th></tr>
+<tr><td><b>List Models</b></td><td>Returns available OpenAI models</td></tr>
+<tr><td><b>Retrieve Model</b></td><td>Returns details about a specific model</td></tr>
+<tr><td><b>Create Completion</b></td><td>Generates text using a specified model</td></tr>
+<tr><td><b>Raw API Request</b></td><td>Full control &mdash; any OpenAI endpoint</td></tr>
+<tr><td><b>Raw API List Request</b></td><td>GET request returning iterable results</td></tr></table>
+<p>The <b>Raw API Request</b> block enables calls to any OpenAI endpoint including Chat Completions with custom system prompts, temperature, etc.</p>
+</div>
+<div class="tab-panel">
+<h4>API Key Connector (Generic REST &mdash; Any LLM)</h4>
+<p>For LLMs without a dedicated connector (Google Gemini, Cohere, custom endpoints):</p>
+<table><tr><th>Setting</th><th>Description</th></tr>
+<tr><td><b>Base URL</b></td><td>LLM provider API base (e.g., <code>https://generativelanguage.googleapis.com</code>)</td></tr>
+<tr><td><b>HTTP Method</b></td><td>GET, POST, DELETE, PATCH, PUT</td></tr>
+<tr><td><b>Headers</b></td><td>JSON for auth headers (e.g., <code>x-api-key</code>, <code>Authorization: Bearer</code>)</td></tr>
+<tr><td><b>Request Body</b></td><td>JSON payload for the chat completion request</td></tr>
+<tr><td><b>Query Parameters</b></td><td>JSON object appended to the URL</td></tr></table>
+<p><b>Example: Calling Google Gemini via API Key Connector</b></p>
+<pre><code>{
+  "Base URL": "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent",
+  "Method": "POST",
+  "Headers": { "content-type": "application/json" },
+  "Query Parameters": { "key": "AIzaSy..." },
+  "Body": {
+    "contents": [{ "parts": [{ "text": "Analyze this HR data: ..." }] }],
+    "generationConfig": { "maxOutputTokens": 1024 }
+  }
+}</code></pre>
+</div>
+<div class="tab-panel">
+<h4>Analytic Connections (Native In-App Connectors)</h4>
+<p>Qlik Cloud provides native analytics source connectors for direct use in <b>load scripts and chart expressions</b>:</p>
+<table><tr><th>Connector</th><th>LLM Provider</th><th>Auth Method</th></tr>
+<tr><td><b>OpenAI</b></td><td>GPT models</td><td>API key</td></tr>
+<tr><td><b>Azure OpenAI</b></td><td>GPT via Azure</td><td>Azure API key + endpoint</td></tr>
+<tr><td><b>Anthropic (Amazon Bedrock)</b></td><td>Claude models</td><td>AWS Access Key + Secret</td></tr>
+<tr><td><b>Amazon Bedrock - Converse API</b></td><td>All Bedrock models</td><td>AWS credentials</td></tr>
+<tr><td><b>Amazon Titan (Bedrock)</b></td><td>Titan models</td><td>AWS credentials</td></tr>
+<tr><td><b>Cohere (Amazon Bedrock)</b></td><td>Cohere models</td><td>AWS credentials</td></tr>
+<tr><td><b>Meta (Amazon Bedrock)</b></td><td>Llama models</td><td>AWS credentials</td></tr>
+<tr><td><b>Hugging Face</b></td><td>Open-source models</td><td>HF API key</td></tr></table>
+<p><b>Chart Expression Example:</b></p>
+<pre><code>if(count(distinct [EmployeeName]) = 1,
+   endpoints.ScriptAggrStr(
+     '{"RequestType":"endpoint",
+       "endpoint":{
+         "connectionname":"OpenAI_HR_Analysis",
+         "column":"choices.message.content"
+       }
+     }',
+     'Analyze retention risk for: '
+     &amp; [EmployeeName] &amp; ' in ' &amp; [Department]
+     &amp; ' with tenure ' &amp; [YearsAtCompany] &amp; ' years'
+   )
+)</code></pre>
+</div></div>
+</section>
+
+<section id="s3-4">
+<h2>3.4 Analytic Connections &mdash; Dynamic Updates with Selections</h2>
+<h3>How Analytic Connections React to User Selections</h3>
+<p>Analytic connections in Qlik Cloud use the <b>Server-Side Extension (SSE) protocol</b>. When used in chart expressions, they respond dynamically to user selections:</p>
+<pre class="mermaid">
+sequenceDiagram
+    participant User
+    participant QS as Qlik Sense App
+    participant AE as Associative Engine
+    participant SSE as Analytics Connector
+    participant LLM as External LLM API
+    User->>QS: Make selection (e.g., select employee)
+    QS->>AE: Recalculate all expressions
+    AE->>SSE: Send filtered data via SSE
+    SSE->>LLM: REST API call with selected data
+    LLM-->>SSE: AI-generated response
+    SSE-->>AE: Return response text
+    AE-->>QS: Update Text and Image object
+    QS-->>User: Display LLM insight for selection
+    Note over User,LLM: User clears selection and picks another - entire flow repeats automatically
+</pre>
+<h3>Key Design Patterns</h3>
+<p><b>1. Gate LLM calls behind single selections (cost control)</b></p>
+<pre><code>if(count(distinct [FieldName]) = 1,
+   endpoints.ScriptAggrStr(...),
+   'Please select exactly one employee to see AI analysis.'
+)</code></pre>
+<p><b>2. Dynamic prompt construction from selections</b></p>
+<pre><code>'Analyze the following employee data: '
+&amp; 'Name: ' &amp; [EmployeeName]
+&amp; ', Department: ' &amp; [Department]
+&amp; ', Tenure: ' &amp; [YearsAtCompany]
+&amp; ', Performance: ' &amp; [PerformanceRating]
+&amp; ', Flight Risk Score: ' &amp; [PredictedAttritionProbability]</code></pre>
+<p><b>3. Use only in Text &amp; Image chart objects</b> (not Tables)</p>
+<p><b>4. Constraints:</b></p>
+<ul><li>Max <b>25 rows per request</b>, batch size of 1 row</li><li>Rate limits depend on LLM provider</li><li>For Anthropic (Messages API via Bedrock), no special prompt syntax needed</li></ul>
+<h3>Integration Pattern: Combining Qlik Predict + LLM Analysis</h3>
+<p>A powerful pattern for people analytics:</p>
+<ol>
+<li><b>Qlik Predict</b> generates attrition risk scores for all employees (batch)</li>
+<li><b>Analytic Connection</b> calls an LLM when a user selects a specific at-risk employee</li>
+<li>The LLM receives the employee's data + risk score and generates: natural language explanation of the risk factors, personalized retention recommendations, suggested conversation starters for the manager</li>
+</ol>
+</section>
+
+<section id="s3-5">
+<h2>3.5 Fallback Architecture: When Qlik Answers Isn't Enough</h2>
+<p>When Qlik Answers' structured data capabilities are insufficient for specific use cases, external LLM integration provides a powerful fallback:</p>
+<table><tr><th>Limitation of Qlik Answers</th><th>Fallback via External LLM</th></tr>
+<tr><td>Cannot generate free-form text narratives</td><td>Use OpenAI/Claude expressions for summaries and recommendations</td></tr>
+<tr><td>Cannot analyze unstructured text (complaints, reviews)</td><td>Send text to LLM for sentiment analysis, classification, summarization</td></tr>
+<tr><td>Cannot perform cross-domain reasoning</td><td>External LLMs combine Qlik data with general domain knowledge</td></tr>
+<tr><td>Limited to Qlik's predefined question patterns</td><td>External LLMs handle open-ended, creative prompts</td></tr>
+<tr><td>No custom model fine-tuning</td><td>Connect to fine-tuned models on Hugging Face or custom endpoints</td></tr>
+<tr><td>Cannot generate code or expressions dynamically</td><td>Use LLM to generate Qlik load scripts, set analysis expressions, etc.</td></tr></table>
+<hr class="section-divider">
+<h3>Recommended Fallback Decision Flow</h3>
+<pre class="mermaid">
+graph TD
+    START["User in Qlik Sense App"] --> Q1{"Standard analytics question?"}
+    Q1 -->|Yes| QA["Qlik Answers - Agentic Analytics"]
+    Q1 -->|No| Q2{"Need AI-generated narrative or analysis?"}
+    Q2 -->|Yes| AC["Analytic Connection - Chart Expression"]
+    Q2 -->|No| Q3{"Need multi-step workflow with AI?"}
+    Q3 -->|Yes| AUTO["Button to Application Automation"]
+    Q3 -->|No| Q4{"Need to expose data to external AI?"}
+    Q4 -->|Yes| MCP_NODE["Qlik MCP Server"]
+    AC --> LLM1["OpenAI, Azure OpenAI, Anthropic Bedrock, Hugging Face"]
+    AUTO --> LLM2["OpenAI Connector, API Key Connector - any LLM"]
+    MCP_NODE --> LLM3["Claude Desktop, ChatGPT, Custom Agents"]
+    LLM1 --> OUT1["Display in Text and Image object"]
+    LLM2 --> OUT2["Write-back, Slack, Teams, Email"]
+    LLM3 --> OUT3["Insights in external AI assistant UI"]
+</pre>
+<h3>Design Principles for the Fallback Pattern</h3>
+<ol>
+<li><b>Gate LLM calls behind selections</b> &mdash; always use <code>if()</code> statements to prevent runaway API costs</li>
+<li><b>Cache where possible</b> &mdash; use load-script-based LLM calls with QVD caching for repeated insights</li>
+<li><b>Separate concerns</b> &mdash; Analytic Connections for display; Automations for workflows/write-back</li>
+<li><b>API Key connector for non-standard LLMs</b> &mdash; any REST API is reachable</li>
+<li><b>Amazon Bedrock Converse API</b> &mdash; recommended as the unified connector for multi-model Bedrock access</li>
+</ol>
+<h3>Integration Method Summary</h3>
+<table><tr><th>Method</th><th>Providers</th><th>Trigger</th><th>Output</th><th>Best For</th></tr>
+<tr><td><b>Analytic Connection (Chart)</b></td><td>OpenAI, Azure, Bedrock, HF</td><td>User selection</td><td>Text &amp; Image object</td><td>Real-time inline AI</td></tr>
+<tr><td><b>Analytic Connection (Load Script)</b></td><td>Same</td><td>Data reload</td><td>Stored in data model</td><td>Batch pre-computation</td></tr>
+<tr><td><b>Automation (OpenAI Connector)</b></td><td>OpenAI</td><td>Button/webhook/schedule</td><td>Write-back, Slack, etc.</td><td>Multi-step OpenAI workflows</td></tr>
+<tr><td><b>Automation (API Key Connector)</b></td><td>Any REST API</td><td>Button/webhook/schedule</td><td>Write-back, Slack, etc.</td><td>Any LLM via HTTP</td></tr>
+<tr><td><b>Qlik MCP Server</b></td><td>Claude, ChatGPT, custom</td><td>External AI initiates</td><td>External AI UI</td><td>Exposing Qlik to external AI</td></tr></table>
+</section>
+
+<section id="s3-6">
+<h2>3.6 Demo: Application Automations &amp; LLM Integration</h2>
+<div class="demo-placeholder"><strong>Analytic Connection &mdash; Selection-Driven LLM Response in Qlik Sense</strong><br>Screenshots and animated GIFs would be embedded here from live Qlik Cloud environment.<br><a href="https://help.qlik.com/en-US/cloud-services/Subsystems/Hub/Content/Sense_Hub/LoadData/ac-openai-tutorial-example-interactive.htm" target="_blank">Watch Official Demo &rarr;</a></div>
+<h3>Demo Walkthrough: LLM-Powered Employee Insight</h3>
+<ol>
+<li><b>Open Qlik Sense app</b> with employee data + flight risk scores from Qlik Predict</li>
+<li><b>Select an employee</b> from the filter pane</li>
+<li><b>Text &amp; Image object</b> fires an analytic connection to OpenAI/Claude</li>
+<li><b>Prompt sent</b>: "Analyze retention risk for [Employee] in [Dept] with [Risk Score]"</li>
+<li><b>LLM response appears</b> inline in the dashboard: personalized risk narrative + recommendations</li>
+<li><b>Change selection</b> to a different employee &mdash; response updates automatically</li>
+</ol>
+<div class="demo-placeholder"><strong>Application Automation &mdash; Button-Triggered LLM Workflow</strong><br>Screenshots and animated GIFs would be embedded here from live Qlik Cloud environment.<br><a href="https://help.qlik.com/en-US/video/GBvy1WtF2B9Akf1e564dtv" target="_blank">Watch Official Demo &rarr;</a></div>
+<p><b>Official Resources:</b></p>
+<ul>
+<li><a href="https://help.qlik.com/en-US/cloud-services/Subsystems/Hub/Content/Sense_Hub/LoadData/ac-openai-tutorial-example-interactive.htm" target="_blank">Interactive OpenAI Example App</a></li>
+<li><a href="https://help.qlik.com/en-US/cloud-services/Subsystems/Hub/Content/Sense_Hub/LoadData/ac-openai-tutorial.htm" target="_blank">OpenAI Analytics Connector Tutorial</a></li>
+<li><a href="https://help.qlik.com/en-US/cloud-services/Subsystems/Hub/Content/Sense_Hub/LoadData/ac-bedrock-anthropic-use.htm" target="_blank">Anthropic (Bedrock) Connection Guide</a></li>
+<li><a href="https://help.qlik.com/en-US/video/GBvy1WtF2B9Akf1e564dtv" target="_blank">Application Automation Overview Video</a></li>
+<li><a href="https://github.com/rileymd88/automation-trigger" target="_blank">Automation Trigger Extension (GitHub)</a></li>
+</ul>
+</section>
+
+<!-- PART 4 -->
+<h1 class="part-heading">Part 4: Qlik Cloud AI/ML Ecosystem</h1>
+
+<section id="s4-1">
+<h2>4.1 Executive Summary</h2>
+<div class="exec-summary"><h3>Executive Summary &mdash; Qlik Cloud AI/ML Ecosystem</h3>
+<ul>
+<li><b>Platform:</b> Qlik's AI strategy is branded under <b>Qlik Staige</b> &mdash; a unified platform spanning data integration, analytics, and AI across the data lifecycle.</li>
+<li><b>GA Features (2025-2026):</b> Qlik Answers (agentic analytics), Qlik Predict (AutoML), MCP Server, Analytic Connections (8 LLM connectors), Application Automations, Augmented Analytics (Insight Advisor or Qlik Answers).</li>
+<li><b>Upcoming:</b> Discovery Agent (anomaly detection), Data Products for Analytics, expanded MCP support for additional AI tools, agentic extensions across data pipelines and data quality.</li>
+<li><b>Key Differentiator:</b> Qlik's AI capabilities are grounded in the <b>Qlik Associative Engine</b> &mdash; ensuring governed, context-preserving calculations rather than hallucinated responses.</li>
+<li><b>Cloud Only:</b> All features described are Qlik Cloud (SaaS) &mdash; not available in Qlik Sense Enterprise on Windows.</li>
+</ul></div>
+</section>
+
+<section id="s4-2">
+<h2>4.2 Current AI/ML Features in Qlik Cloud</h2>
+
+<details><summary>Qlik Answers (Agentic Analytics) &mdash; GA (Feb 2026)</summary>
+<div class="detail-content">Unified conversational AI interface combining structured data analytics (via Qlik Engine) with unstructured document Q&amp;A (via RAG). Replaces Insight Advisor in enabled tenants.</div></details>
+
+<details><summary>Qlik Predict (AutoML) &mdash; GA</summary>
+<div class="detail-content">No-code automated machine learning for classification, regression, and time series forecasting. SHAP explainability, model monitoring, and multiple deployment options.</div></details>
+
+<details><summary>Multivariate Time Series Forecasting &mdash; GA (Oct 2025)</summary>
+<div class="detail-content">GPU-accelerated deep learning models (DeepAR, TSMixer, TiDE) for temporal forecasting with covariates. Part of Qlik Predict.</div></details>
+
+<details><summary>Qlik MCP Server &mdash; GA (Feb 2026)</summary>
+<div class="detail-content">Model Context Protocol server exposing Qlik at engine, tool, and agent levels. Enables third-party AI assistants (Claude, ChatGPT) to access governed Qlik data.</div></details>
+
+<details><summary>Analytic Connections (LLM Connectors) &mdash; GA</summary>
+<div class="detail-content">8 native connectors for OpenAI, Azure OpenAI, Anthropic (Bedrock), Amazon Bedrock Converse, Titan, Cohere, Meta Llama, and Hugging Face. Used in load scripts and chart expressions.</div></details>
+
+<details><summary>Application Automations (Qlik Automate) &mdash; GA</summary>
+<div class="detail-content">No-code workflow automation platform with native OpenAI connector and generic API Key connector for any REST API. Triggered by buttons, webhooks, or schedules.</div></details>
+
+<details><summary>Insight Advisor (Augmented Analytics) &mdash; GA (being replaced by Qlik Answers)</summary>
+<div class="detail-content">NL search and chat-based analytics within Qlik Sense apps. Full business logic support. Still available in tenants that haven't enabled Qlik Answers.</div></details>
+
+<details><summary>AI-Generated Narratives (Insight Advisor) &mdash; GA</summary>
+<div class="detail-content">Auto-generated natural language summaries of charts and data patterns. Available within Insight Advisor analysis.</div></details>
+
+<details><summary>Key Driver Analysis &mdash; GA</summary>
+<div class="detail-content">Automated identification of key drivers behind a target metric. Uses statistical analysis to surface which dimensions most influence outcomes.</div></details>
+
+<details><summary>Anomaly Detection (Insight Advisor) &mdash; GA</summary>
+<div class="detail-content">Automatic detection of outliers and anomalies in time series data within Insight Advisor analysis.</div></details>
+
+<details><summary>Natural Language Processing (NLP) &mdash; GA</summary>
+<div class="detail-content">Powers natural language question understanding in both Insight Advisor and Qlik Answers. Supports synonyms, field mappings, and query interpretation.</div></details>
+
+<details><summary>Write Table (Writeback) &mdash; GA (Oct 2025)</summary>
+<div class="detail-content">Native writeback capability allowing users to edit data directly in Qlik Sense apps. Combined with Qlik Predict for actionable forecasting workflows.</div></details>
+
+<hr class="section-divider">
+<h3>AI-Powered Data Quality &amp; Governance (Qlik Talend Cloud)</h3>
+
+<details><summary>Qlik Trust Score for AI &mdash; GA (July 2025)</summary>
+<div class="detail-content">Purpose-built scoring for AI-readiness of data. Dimensions include <b>Diversity</b> (reduces bias), <b>Timeliness</b> (data freshness), <b>Accuracy</b> (business rule validation), <b>Discoverability</b>, and <b>Usage</b>. Planned dimensions: Security and LLM Readiness. Supports historization to correlate shifts with model drift.</div></details>
+
+<details><summary>AI-Native Data Stewardship &mdash; Early Access (Fall 2025)</summary>
+<div class="detail-content">Proactively detects and resolves data issues earlier in the lifecycle. Combines automated rules, human-in-the-loop workflows, and platform-wide governance.</div></details>
+
+<details><summary>Generative AI for Data Documentation &mdash; GA (Oct 2025)</summary>
+<div class="detail-content">Auto-generates field-level descriptions for dataset fields based on column names and context. Reduces manual documentation burden.</div></details>
+
+<details><summary>Knowledge Mart Tasks &mdash; GA</summary>
+<div class="detail-content">Automate transformation, vectorization, and loading of data into vector stores. Supports custom semantic search and RAG AI applications. Domain-specific collections with incremental refresh. Currently supported on Snowflake.</div></details>
+
+<h3>AI-Assisted Development &amp; Data Preparation</h3>
+
+<details><summary>Natural Language Expression Generator &mdash; GA</summary>
+<div class="detail-content">Built into the expression editor. Type natural language descriptions to generate Qlik expressions. Supports field names, master items, aggregations, and filters.</div></details>
+
+<details><summary>AI-Assisted Script Generation &mdash; GA</summary>
+<div class="detail-content">Generate Qlik load scripts through natural language prompts. Automated SQL code generation for faster model building.</div></details>
+
+<details><summary>Table Recipe &mdash; GA</summary>
+<div class="detail-content">Streamlined, spreadsheet-like experience for preparing single-table datasets without scripting. 60+ visual functions for cleaning, converting, and formatting data. Real-time preview of changes.</div></details>
+
+<details><summary>Qlik Open Lakehouse &mdash; GA (Oct 2025)</summary>
+<div class="detail-content">Iceberg-powered lakehouse architecture on AWS (S3 + EC2 spot instances). High-throughput ingestion into Apache Iceberg with continuous optimization. AI-augmented data pipelines for RAG, GenAI, and ML solutions.</div></details>
+
+<p><b>Sources:</b>
+<a href="https://www.qlik.com/us/news/company/press-room/press-releases/qlik-releases-trust-score-for-ai-in-qlik-talend-cloud" target="_blank">Trust Score for AI</a> |
+<a href="https://help.qlik.com/en-US/cloud-services/Subsystems/Hub/Content/Sense_Hub/DataIntegration/KnowledgeMart/Creating-knowledge-marts.htm" target="_blank">Knowledge Mart Help</a> |
+<a href="https://community.qlik.com/t5/Release-Notes/Qlik-Cloud-Release-Notes-October-2025/ta-p/2532869" target="_blank">Open Lakehouse</a> |
+<a href="https://www.qlik.com/us/news/company/press-room/press-releases/qlik-announces-qlik-staige" target="_blank">Qlik Staige</a></p>
+</section>
+
+<section id="s4-3">
+<h2>4.3 Planned / Upcoming AI Features</h2>
+<p>Based on Qlik's announcements and roadmap communications (as of March 2026):</p>
+<table><tr><th>Feature</th><th>Status</th><th>Description</th></tr>
+<tr><td><b>Discovery Agent</b></td><td>Rolling out post-GA</td><td>Continuously monitors key measures and surfaces meaningful anomalies and shifts. Proactive alerting before issues escalate.</td></tr>
+<tr><td><b>Data Products for Analytics</b></td><td>Rolling out post-GA</td><td>Curated, governed datasets with stewardship and quality signals. Foundation for both human and AI analysis.</td></tr>
+<tr><td><b>Productivity Agents</b></td><td>In development</td><td>Embedded across all Qlik Cloud workflows &mdash; contextual help, developer support, and analytical assistance.</td></tr>
+<tr><td><b>Expanded MCP Support</b></td><td>Planned 2026</td><td>Support for additional AI tools and assistants beyond Claude and ChatGPT throughout 2026.</td></tr>
+<tr><td><b>Agentic Data Pipeline Agents</b></td><td>Planned</td><td>AI agents for automating data integration, transformation, and quality workflows.</td></tr>
+<tr><td><b>Agentic Data Quality Agents</b></td><td>Planned</td><td>AI-powered data quality monitoring, anomaly detection, and remediation across data pipelines.</td></tr>
+<tr><td><b>Agentic Stewardship Agents</b></td><td>Planned</td><td>AI agents for data governance, cataloging, and stewardship automation.</td></tr>
+<tr><td><b>GenAI Insight Advisor Narratives</b></td><td>Private Preview</td><td>ChatGPT-like answers with human-sounding narrative powered by Amazon Bedrock LLM.</td></tr>
+<tr><td><b>Trust Score: Security + LLM Readiness</b></td><td>Planned</td><td>Additional dimensions for AI data readiness scoring.</td></tr>
+<tr><td><b>AWS European Sovereign Cloud</b></td><td>Planned 2026</td><td>Qlik Cloud deployment on sovereign infrastructure ($1.5B European investment over 5 years).</td></tr>
+<tr><td><b>Governed Writeback (SAP, Salesforce, Snowflake)</b></td><td>Planned</td><td>Native writeback connectors to enterprise systems.</td></tr></table>
+<hr class="section-divider">
+<h3>Full Feature Timeline</h3>
+<table><tr><th>Feature</th><th>Status</th><th>Availability</th></tr>
+<tr><td>Qlik Staige (portfolio)</td><td>GA</td><td>Available now</td></tr>
+<tr><td>Insight Advisor (NLP, search, chat)</td><td>GA</td><td>Available now</td></tr>
+<tr><td>Qlik Predict (AutoML)</td><td>GA</td><td>Available now</td></tr>
+<tr><td>GenAI Connectors (OpenAI, Bedrock, etc.)</td><td>GA</td><td>Available now</td></tr>
+<tr><td>Qlik Automate (decision triggers)</td><td>GA</td><td>Available now</td></tr>
+<tr><td>Qlik Answers (original, unstructured)</td><td>GA</td><td>Since July 2024</td></tr>
+<tr><td>Qlik Trust Score for AI</td><td>GA</td><td>Since July 2025</td></tr>
+<tr><td>Table Recipe</td><td>GA</td><td>Since mid-2025</td></tr>
+<tr><td>Knowledge Mart Tasks</td><td>GA</td><td>Since mid-2025</td></tr>
+<tr><td>Qlik Open Lakehouse</td><td>GA</td><td>Since October 2025</td></tr>
+<tr><td>Multivariate Time Series</td><td>GA</td><td>Phased from summer 2025</td></tr>
+<tr><td>Write Table (Writeback)</td><td>GA</td><td>October 2025</td></tr>
+<tr><td>Qlik Answers (Agentic)</td><td>GA</td><td>February 2026</td></tr>
+<tr><td>Qlik MCP Server</td><td>GA</td><td>February 2026</td></tr>
+<tr><td>Discovery Agent</td><td>Planned</td><td>Post-Feb 2026 GA</td></tr>
+<tr><td>Data Products for Analytics</td><td>Planned</td><td>Post-Feb 2026 GA</td></tr>
+<tr><td>Productivity Agents</td><td>Planned</td><td>In development</td></tr></table>
+<h3>Qlik's Agentic Strategy</h3>
+<p>Qlik's agentic strategy is designed to expand over time, with agents planned across:</p>
+<ul><li>Data pipelines</li><li>Data quality</li><li>Data stewardship</li><li>Analytics (currently via Qlik Answers + Discovery Agent)</li></ul>
+<p>The MCP Server is the extensibility mechanism &mdash; allowing any MCP-compatible AI assistant to access Qlik's capabilities.</p>
+<h3>Strategic Partnerships &amp; Recognition</h3>
+<table><tr><th>Achievement</th><th>Details</th></tr>
+<tr><td><b>AWS Generative AI Competency</b></td><td>Technical proficiency in leveraging Amazon Bedrock and SageMaker</td></tr>
+<tr><td><b>AWS European Sovereign Cloud</b></td><td>Launch partner; $1.5B European investment over 5 years</td></tr>
+<tr><td><b>AWS Marketplace AI Category</b></td><td>Qlik Cloud Analytics in AI Agents and Tools category</td></tr>
+<tr><td><b>Gartner MQ: Analytics &amp; BI</b></td><td>Leader for 15th year (2025)</td></tr>
+<tr><td><b>Gartner MQ: Data Quality</b></td><td>Leader for 6th time (2025)</td></tr>
+<tr><td><b>Qlik AI Specialist Certification</b></td><td>New certification covering AI concepts, Qlik Predict, GenAI assistants</td></tr>
+<tr><td><b>Kyndi Acquisition (2024)</b></td><td>NLP, search, and generative AI capabilities</td></tr>
+<tr><td><b>Upsolver Acquisition (2025)</b></td><td>Real-time data processing capabilities</td></tr></table>
+<p><b>Sources:</b>
+<a href="https://www.qlik.com/us/news/company/press-room/press-releases/qlik-achieves-aws-generative-ai-competency" target="_blank">AWS GenAI Competency</a> |
+<a href="https://learning.qlik.com/student/page/2537679-qlik-ai-specialist-certification-exam" target="_blank">AI Specialist Cert</a> |
+<a href="https://www.businesswire.com/news/home/20260210837577/en/" target="_blank">Agentic Analytics GA</a></p>
+</section>
+
+<section id="s4-4">
+<h2>4.4 Qlik Staige &mdash; Unified AI Platform</h2>
+<p><b>Qlik Staige</b> is Qlik's unified platform brand for AI capabilities across the data lifecycle. It encompasses all AI features within Qlik Cloud.</p>
+<pre class="mermaid">
+graph TB
+    subgraph "Qlik Staige Platform"
+        subgraph "Data Integration AI"
+            DI["Agentic Data Pipeline Agents"]
+            DQ["Data Quality AI"]
+            DS["Data Stewardship AI"]
+        end
+        subgraph "Analytics AI"
+            QA["Qlik Answers - Agentic Analytics"]
+            QP["Qlik Predict - AutoML"]
+            DA["Discovery Agent"]
+            IA["Insight Advisor - Augmented Analytics"]
+        end
+        subgraph "Extensibility"
+            MCP["MCP Server"]
+            AC["Analytic Connections - 8 LLM Connectors"]
+            AA["Application Automations"]
+        end
+        subgraph "Foundation"
+            AE["Qlik Associative Engine"]
+            DP["Data Products for Analytics"]
+            GOV["AI Governance and Trust"]
+        end
+    end
+    AE --> QA
+    AE --> IA
+    DP --> QA
+    DP --> DA
+    GOV --> QA
+    GOV --> QP
+    GOV --> MCP
+</pre>
+<h3>Key Principles of Qlik Staige</h3>
+<ol>
+<li><b>Grounded in Governed Data</b> &mdash; All AI responses are powered by the Qlik Associative Engine, ensuring calculations are governed and auditable, not hallucinated.</li>
+<li><b>Transparent Reasoning</b> &mdash; Qlik Answers provides citations and explanations of how conclusions were reached, building trust in AI-generated insights.</li>
+<li><b>No Data Science Required</b> &mdash; Qlik Predict's AutoML approach means analytics teams can build and deploy ML models without coding or data science expertise.</li>
+<li><b>Open Ecosystem</b> &mdash; The MCP Server and Analytic Connections ensure Qlik is not a closed system but can integrate with the broader AI ecosystem.</li>
+<li><b>Embedded, Not Bolted On</b> &mdash; AI is embedded directly into the analytics workflow (side panels, chart expressions, automations) rather than being a separate product.</li>
+</ol>
+<hr class="section-divider">
+<h3>AI Governance Framework</h3>
+<p>Qlik's AI governance approach spans the entire platform:</p>
+<table><tr><th>Governance Layer</th><th>Mechanism</th></tr>
+<tr><td><b>Governed Calculations</b></td><td>All analytical answers powered by Qlik Associative Engine, not raw LLM generation</td></tr>
+<tr><td><b>Citations &amp; Explainability</b></td><td>Every AI answer traces back to original data sources</td></tr>
+<tr><td><b>SHAP Model Explainability</b></td><td>Feature importance at global and individual prediction levels</td></tr>
+<tr><td><b>Data Lineage &amp; Provenance</b></td><td>Full tracking of data transformations and origins</td></tr>
+<tr><td><b>Trust Score for AI</b></td><td>Purpose-built data readiness scoring (Diversity, Timeliness, Accuracy)</td></tr>
+<tr><td><b>Role-Based Access Controls</b></td><td>Granular permissions on AI features and data products</td></tr>
+<tr><td><b>Global AI Council</b></td><td>External experts guiding product direction and responsible AI (formed Jan 2024)</td></tr>
+<tr><td><b>Enterprise MLOps</b></td><td>Version control, monitoring, retraining, lifecycle management</td></tr>
+<tr><td><b>Data Products with Stewardship</b></td><td>Quality signals for governed, reusable datasets</td></tr>
+<tr><td><b>EU Data Sovereignty</b></td><td>Support via AWS European Sovereign Cloud</td></tr></table>
+<p><b>Sources:</b>
+<a href="https://www.qlik.com/us/agentic-ai" target="_blank">Qlik Agentic AI</a> |
+<a href="https://www.qlik.com/us/products/qlik-cloud-analytics" target="_blank">Cloud Analytics</a> |
+<a href="https://www.qlik.com/us/products/qlik-augmented-analytics" target="_blank">Augmented Analytics</a> |
+<a href="https://help.qlik.com/en-US/cloud-services/Subsystems/Hub/Content/Sense_Hub/AutoML/home-automl.htm" target="_blank">Qlik Predict</a> |
+<a href="https://www.qlik.com/us/products/model-context-protocol" target="_blank">MCP Server</a> |
+<a href="https://www.qlik.com/us/why-qlik-for-ai" target="_blank">Why AI</a></p>
+</section>
+
+<section id="s4-5">
+<h2>4.5 Open-Source Tools &amp; Developer Resources</h2>
+<p>Qlik maintains an active open-source presence through the <a href="https://github.com/orgs/qlik-oss" target="_blank">qlik-oss</a> GitHub organization (~130+ repositories), providing developer SDKs, monitoring apps, embedding examples, and extensibility tools for Qlik Cloud.</p>
+
+<h3>Qlik Cloud Monitoring Apps</h3>
+<p>A suite of <b>community-supported</b> Qlik Sense applications that provide operational and usage analytics for Qlik Cloud tenants. Installed via Qlik Automate workflows or manual <code>.qvf</code> import.</p>
+<table><tr><th>App</th><th>Description</th><th>Multi-Tenant</th></tr>
+<tr><td><b>App Analyzer</b></td><td>Analyzes and monitors Qlik Sense applications in a tenant</td><td>Yes</td></tr>
+<tr><td><b>Reload Analyzer</b></td><td>Tracks reload tasks, durations, and failures</td><td>Yes</td></tr>
+<tr><td><b>Automation Analyzer</b></td><td>Analyzes Qlik Automate automation runs</td><td>No</td></tr>
+<tr><td><b>Answers Analyzer</b></td><td>Monitors Qlik Answers usage, knowledgebases, and accuracy</td><td>No</td></tr>
+<tr><td><b>Access Evaluator</b></td><td>Analyzes user roles, access, and permissions</td><td>No</td></tr>
+<tr><td><b>Entitlement Analyzer</b></td><td>Tracks license/entitlement usage (User subscription only)</td><td>Yes</td></tr>
+<tr><td><b>Report Analyzer</b></td><td>Analyzes metered report metadata</td><td>No</td></tr>
+<tr><td><b>OEM Dashboard</b></td><td>Multi-tenant estate overview (User subscription only)</td><td>Multi only</td></tr></table>
+<p>All apps require <b>TenantAdmin</b> role. The Answers Analyzer also requires <b>AuditAdmin</b>.</p>
+<ul><li><a href="https://github.com/qlik-oss/qlik-cloud-monitoring-apps" target="_blank">Qlik Cloud Monitoring Apps (GitHub)</a></li></ul>
+
+<hr class="section-divider">
+<h3>Developer SDKs &amp; CLI Tools</h3>
+<table><tr><th>Tool</th><th>Language</th><th>Description</th></tr>
+<tr><td><b><a href="https://github.com/qlik-oss/qlik-api-ts" target="_blank">@qlik/api</a></b></td><td>TypeScript</td><td>Full Qlik Cloud REST API + QIX Engine client. Works in Node.js and browser.</td></tr>
+<tr><td><b><a href="https://github.com/qlik-oss/enigma.js" target="_blank">enigma.js</a></b></td><td>JavaScript</td><td>WebSocket library for Qlik's Associative Engine (QIX). Most-starred Qlik OSS repo.</td></tr>
+<tr><td><b><a href="https://github.com/qlik-oss/enigma-go" target="_blank">enigma-go</a></b></td><td>Go</td><td>Go client for the Qlik Associative Engine.</td></tr>
+<tr><td><b><a href="https://github.com/qlik-oss/qlik-cli" target="_blank">qlik-cli</a></b></td><td>CLI</td><td>Command-line access to all public Qlik Cloud APIs. Available via brew, chocolatey.</td></tr>
+<tr><td><b><a href="https://github.com/qlik-oss/nebula.js" target="_blank">nebula.js</a></b></td><td>JavaScript</td><td>Product-agnostic APIs for building visualizations on the Qlik Engine.</td></tr>
+<tr><td><b><a href="https://github.com/qlik-oss/halyard.js" target="_blank">halyard.js</a></b></td><td>JavaScript</td><td>Generate Qlik Load Scripts programmatically.</td></tr>
+<tr><td><b><a href="https://github.com/qlik-oss/picasso.js" target="_blank">picasso.js</a></b></td><td>JavaScript</td><td>Charting library for building interactive visualizations.</td></tr></table>
+
+<hr class="section-divider">
+<h3>MCP Registry &amp; Native MCP Endpoint</h3>
+<p>Qlik maintains an <a href="https://github.com/qlik-oss/qlik-mcp-registry" target="_blank">MCP Registry</a> listing MCP servers available for AI-assisted development workflows (e.g., GitHub Copilot integration). Qlik Cloud also exposes a <b>native MCP endpoint</b> at <code>/api/ai/mcp</code> using the streamable-http transport, enabling external AI assistants to interact directly with Qlik analytics and governed data.</p>
+<p>Registered MCP servers include:</p>
+<ul>
+<li><b>Qlik Cloud MCP Server</b> &mdash; Native Qlik Cloud analytics access for third-party AI</li>
+<li><b>Qlik Design System (Sprout)</b> &mdash; AI-assisted code generation using Qlik design tokens and components</li>
+<li><b>Qlik R&amp;D Knowledge Base</b> &mdash; Internal developer documentation for AI-assisted use cases</li>
+</ul>
+
+<hr class="section-divider">
+<h3>Embedding &amp; Extensibility</h3>
+<table><tr><th>Resource</th><th>Description</th></tr>
+<tr><td><b><a href="https://github.com/qlik-oss/qlik-cloud-embed-oauth-impersonation" target="_blank">qlik-embed OAuth Impersonation</a></b></td><td>Embed Qlik Sense and Qlik Answers (<code>ai/assistant</code>) in external apps using OAuth M2M</td></tr>
+<tr><td><b><a href="https://github.com/qlik-oss/qlik-embedded-analytics-workshop" target="_blank">Embedded Analytics Workshop</a></b></td><td>Self-directed workshop for embedding Qlik Cloud visualizations (GitHub Codespaces)</td></tr>
+<tr><td><b><a href="https://github.com/qlik-oss/server-side-extension" target="_blank">Server-Side Extensions (SSE)</a></b></td><td>gRPC protocol for extending Qlik's expression engine with external code (Python, R, C++, Java, Go)</td></tr>
+<tr><td><b><a href="https://github.com/qlik-oss/sse-r-plugin" target="_blank">SSE R Plugin</a></b></td><td>R integration for statistical and ML computations within Qlik expressions</td></tr>
+<tr><td><b><a href="https://github.com/qlik-oss/insight-advisor-api-example" target="_blank">Insight Advisor API Example</a></b></td><td>Programmatic NL querying of Qlik analytics via the Insight Advisor API</td></tr>
+<tr><td><b><a href="https://github.com/qlik-oss/qlik-cloud-examples" target="_blank">Qlik Cloud Examples</a></b></td><td>Scripts and snippets for Qlik Cloud integration (Python, TypeScript, Bash, cURL)</td></tr>
+<tr><td><b><a href="https://github.com/qlik-oss/web-integration-examples" target="_blank">Web Integration Examples</a></b></td><td>Example web apps and mashups for Qlik Cloud</td></tr></table>
+<p><b>Sources:</b>
+<a href="https://github.com/orgs/qlik-oss" target="_blank">Qlik OSS GitHub</a> |
+<a href="https://github.com/qlik-oss/qlik-cloud-monitoring-apps" target="_blank">Monitoring Apps</a> |
+<a href="https://qlik.dev/" target="_blank">Developer Portal</a> |
+<a href="https://github.com/qlik-oss/qlik-mcp-registry" target="_blank">MCP Registry</a></p>
+</section>
+
+</main><!-- end .main -->
+
+<!-- Mermaid.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<script>
+mermaid.initialize({ startOnLoad: true, theme: 'default', securityLevel: 'strict' });
+
+const MOBILE_BP = 800;
+const SCROLL_OFFSET = 100;
+const sidebar = document.getElementById('sidebar');
+const overlay = document.getElementById('overlay');
+
+// Tab switching (delegated)
+document.addEventListener('click', function(e) {
+  var btn = e.target.closest('.tab-btn');
+  if (!btn) return;
+  var tabs = btn.closest('.tabs');
+  var buttons = tabs.querySelectorAll('.tab-btn');
+  var panels = tabs.querySelectorAll('.tab-panel');
+  buttons.forEach(function(b) { b.classList.remove('active'); });
+  panels.forEach(function(p) { p.classList.remove('active'); });
+  btn.classList.add('active');
+  var idx = Array.from(buttons).indexOf(btn);
+  panels[idx].classList.add('active');
+});
+
+// Mobile sidebar toggle
+function toggleSidebar() {
+  sidebar.classList.toggle('open');
+  overlay.classList.toggle('open');
+}
+
+// Scroll spy — throttled via rAF, only updates DOM on change
+var sections = document.querySelectorAll('section[id]');
+var linkMap = {};
+document.querySelectorAll('.sidebar a[href^="#"]').forEach(function(a) {
+  linkMap[a.getAttribute('href')] = a;
+});
+var activeLink = null;
+var ticking = false;
+window.addEventListener('scroll', function() {
+  if (!ticking) {
+    requestAnimationFrame(function() {
+      var current = '';
+      sections.forEach(function(s) {
+        if (window.scrollY >= s.offsetTop - SCROLL_OFFSET) current = s.id;
+      });
+      var newLink = linkMap['#' + current] || null;
+      if (newLink !== activeLink) {
+        if (activeLink) activeLink.classList.remove('active');
+        if (newLink) newLink.classList.add('active');
+        activeLink = newLink;
+      }
+      ticking = false;
+    });
+    ticking = true;
+  }
+});
+
+// Close sidebar on nav click (mobile, delegated)
+sidebar.addEventListener('click', function(e) {
+  if (e.target.matches('a[href^="#"]') && window.innerWidth <= MOBILE_BP) {
+    sidebar.classList.remove('open');
+    overlay.classList.remove('open');
+  }
+});
+</script>
+</body>
+</html>
