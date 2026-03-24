@@ -149,7 +149,7 @@ blockquote{border-left:3px solid #D5CFC1;padding-left:1rem;color:#555;margin:1re
 <tr><td>May 2025</td><td>Agentic analytics vision announced at Qlik Connect</td></tr>
 <tr><td>Oct 2025</td><td>Multivariate Time Series GA in Qlik Predict</td></tr>
 <tr><td>Dec 2025</td><td>Agentic Qlik Answers private preview</td></tr>
-<tr><td>Feb 2026</td><td>Qlik Answers agentic GA + MCP Server GA</td></tr>
+<tr><td>Feb 2026</td><td>Qlik Answers agentic GA + MCP Server GA; Qlik Cloud Government &ndash; DoD launched</td></tr>
 <tr><td>Mar 2026</td><td>Discovery Agent rolling out; Data Products for Analytics rolling out</td></tr>
 <tr><td>Apr 2026</td><td>Qlik Connect 2026 (April 13&ndash;15, Orlando)</td></tr>
 </table></div></div>
@@ -507,7 +507,7 @@ graph TB
     end
 </pre>
 <p><b>Key Constraints:</b></p>
-<ul><li>Max 500 columns per dataset</li><li>API rate limit: 300 requests/minute</li><li>Analytics connector: 200,000 rows per request (batched in 2,000 row chunks)</li><li>Not available on Qlik Cloud Government</li><li>Available in Premium and Enterprise tiers</li></ul>
+<ul><li>Max 500 columns per dataset</li><li>API rate limit: 300 requests/minute</li><li>Dataset size: up to 2 GiB (CSV/Parquet/QVD) or 100M&ndash;500M cells; analytics connector batched in 2,000-row chunks</li><li>API change (Feb 2026): Legacy AutoML real-time API removed; use new Machine Learning API <code>/api/v1/ml/deployments/{id}/realtime-predictions/actions/run</code></li><li>Not available on Qlik Cloud Government or Qlik Cloud Government &ndash; DoD</li><li>Available in Premium and Enterprise tiers</li></ul>
 </section>
 
 <section id="s2-3">
@@ -971,7 +971,10 @@ graph TD
 <tr><td><b>AWS European Sovereign Cloud</b></td><td>Launch partner; $1.5B European investment over 5 years</td></tr>
 <tr><td><b>AWS Marketplace AI Category</b></td><td>Qlik Cloud Analytics in AI Agents and Tools category</td></tr>
 <tr><td><b>Gartner MQ: Analytics &amp; BI</b></td><td>Leader for 15th year (2025)</td></tr>
-<tr><td><b>Gartner MQ: Data Quality</b></td><td>Leader for 6th time (2025)</td></tr>
+<tr><td><b>Gartner MQ: Data Quality Solutions</b></td><td>Leader for 6th time (2025)</td></tr>
+<tr><td><b>Gartner MQ: Augmented Data Quality Solutions</b></td><td>Leader for 7th time (Feb 2026) &mdash; cited Trust Score for AI, RAG support, automated remediation</td></tr>
+<tr><td><b>Canada Cloud Region</b></td><td>Announced Sep 2025; customer onboarding 2026. Data residency &amp; AI sovereignty for Canadian enterprises and public sector.</td></tr>
+<tr><td><b>Qlik Cloud Government &ndash; DoD</b></td><td>Launched Feb 18, 2026 on AWS Marketplace for JWCC customers.</td></tr>
 <tr><td><b>Qlik AI Specialist Certification</b></td><td>New certification covering AI concepts, Qlik Predict, GenAI assistants</td></tr>
 <tr><td><b>Kyndi Acquisition (2024)</b></td><td>NLP, search, and generative AI capabilities</td></tr>
 <tr><td><b>Upsolver Acquisition (2025)</b></td><td>Real-time data processing capabilities</td></tr>

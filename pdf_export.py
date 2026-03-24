@@ -228,7 +228,7 @@ def _build_home(pdf: _QlikPDF):
         ["May 2025", "Agentic analytics vision announced at Qlik Connect"],
         ["Oct 2025", "Multivariate Time Series GA in Qlik Predict"],
         ["Dec 2025", "Agentic Qlik Answers private preview"],
-        ["Feb 2026", "Qlik Answers agentic GA + MCP Server GA"],
+        ["Feb 2026", "Qlik Answers agentic GA + MCP Server GA; Qlik Cloud Government - DoD launched"],
         ["Mar 2026", "Discovery Agent rolling out; Data Products for Analytics rolling out"],
         ["Apr 2026", "Qlik Connect 2026 (April 13-15, Orlando)"],
     ], [35, 155])
@@ -407,8 +407,9 @@ def _build_part2(pdf: _QlikPDF):
     _add_subsection(pdf, "Key Constraints")
     _bullet(pdf, "Max 500 columns per dataset")
     _bullet(pdf, "API rate limit: 300 requests/minute")
-    _bullet(pdf, "Analytics connector: 200,000 rows per request (batched in 2,000 row chunks)")
-    _bullet(pdf, "Not available on Qlik Cloud Government")
+    _bullet(pdf, "Dataset size: up to 2 GiB (CSV/Parquet/QVD) or 100M-500M cells; analytics connector batched in 2,000-row chunks")
+    _bullet(pdf, "API change (Feb 2026): Legacy AutoML real-time API removed; use new Machine Learning API /api/v1/ml/deployments/{id}/realtime-predictions/actions/run")
+    _bullet(pdf, "Not available on Qlik Cloud Government or Qlik Cloud Government - DoD")
     _bullet(pdf, "Available in Premium and Enterprise tiers")
     pdf.ln(3)
 
@@ -646,7 +647,10 @@ def _build_part4(pdf: _QlikPDF):
     _table(pdf, ["Achievement", "Details"], [
         ["AWS Generative AI Competency", "Technical proficiency in Amazon Bedrock and SageMaker"],
         ["Gartner MQ: Analytics & BI", "Leader for 15th year (2025)"],
-        ["Gartner MQ: Data Quality", "Leader for 6th time (2025)"],
+        ["Gartner MQ: Data Quality Solutions", "Leader for 6th time (2025)"],
+        ["Gartner MQ: Augmented Data Quality Solutions", "Leader for 7th time (Feb 2026) - cited Trust Score for AI, RAG support"],
+        ["Canada Cloud Region", "Announced Sep 2025; onboarding 2026. Data residency + AI sovereignty for Canadian customers."],
+        ["Qlik Cloud Government - DoD", "Launched Feb 18, 2026 on AWS Marketplace for JWCC customers."],
         ["Qlik AI Specialist Certification", "Covers AI concepts, Qlik Predict, GenAI assistants"],
         ["Qlik Connect 2026", "April 13-15, Orlando. Agentic AI keynote program; further product announcements expected."],
     ], [60, 130])

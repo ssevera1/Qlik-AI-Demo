@@ -382,7 +382,7 @@ if section == "Home":
         | May 2025 | Agentic analytics vision announced at Qlik Connect |
         | Oct 2025 | Multivariate Time Series GA in Qlik Predict |
         | Dec 2025 | Agentic Qlik Answers private preview |
-        | Feb 2026 | Qlik Answers agentic GA + MCP Server GA |
+        | Feb 2026 | Qlik Answers agentic GA + MCP Server GA; Qlik Cloud Government – DoD launched |
         | Mar 2026 | Discovery Agent rolling out; Data Products for Analytics rolling out |
         | Apr 2026 | Qlik Connect 2026 (April 13–15, Orlando) |
         """)
@@ -1021,9 +1021,11 @@ elif section == "Part 2: Qlik Predict (ML)":
         **Key Constraints:**
         - Max 500 columns per dataset
         - API rate limit: 300 requests/minute
-        - Analytics connector: 200,000 rows per request (batched in 2,000 row chunks)
-        - Not available on Qlik Cloud Government
+        - Dataset size: up to 2 GiB (CSV/Parquet/QVD) or 100M–500M cells
+        - Analytics connector: batched in 2,000-row chunks
+        - Not available on Qlik Cloud Government or Qlik Cloud Government – DoD
         - Available in Premium and Enterprise tiers
+        - **API change (Feb 2026):** The legacy AutoML real-time predictions API was removed. Use the new Machine Learning API at `/api/v1/ml/deployments/{id}/realtime-predictions/actions/run`.
         """)
 
         st.info("**New (Feb 2026): Responsible AI / Bias Detection** — Model training now surfaces bias signals including imbalanced feature groups and proxy features. Helps detect and mitigate bias before deployment. Not available in Qlik Cloud Government.")
@@ -1952,7 +1954,10 @@ elif section == "Part 4: Qlik Cloud AI/ML Ecosystem":
         | **AWS European Sovereign Cloud** | Launch partner; $1.5B European investment over 5 years |
         | **AWS Marketplace AI Category** | Qlik Cloud Analytics in AI Agents and Tools category |
         | **Gartner MQ: Analytics & BI** | Leader for 15th year (2025) |
-        | **Gartner MQ: Data Quality** | Leader for 6th time (2025) |
+        | **Gartner MQ: Data Quality Solutions** | Leader for 6th time (2025) |
+        | **Gartner MQ: Augmented Data Quality Solutions** | Leader for 7th time (Feb 2026) — cited Trust Score for AI, RAG support, automated remediation |
+        | **Canada Cloud Region** | Announced Sep 2025; customer onboarding 2026. Data residency + AI sovereignty for Canadian enterprises and public sector. |
+        | **Qlik Cloud Government – DoD** | Launched Feb 18, 2026 on AWS Marketplace for JWCC customers. |
         | **Qlik AI Specialist Certification** | New certification covering AI concepts, Qlik Predict, GenAI assistants |
         | **Kyndi Acquisition (2024)** | NLP, search, and generative AI capabilities |
         | **Upsolver Acquisition (2025)** | Real-time data processing capabilities |
