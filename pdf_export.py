@@ -218,7 +218,7 @@ def _build_home(pdf: _QlikPDF):
         "Covers Qlik Answers (agentic analytics with structured + unstructured data) - GA Feb 2026",
         "Documents Qlik Predict (AutoML) with HR-specific use cases for turnover, promotions, and lateral moves",
         "Explains Application Automations for integrating external LLMs (OpenAI, Claude, etc.) into Qlik apps",
-        "Maps the full Qlik Cloud AI/ML ecosystem including planned features like Discovery Agent and MCP Server",
+        "Maps the full Qlik Cloud AI/ML ecosystem including Discovery Agent (rolling out March 2026) and MCP Server (GA Feb 2026)",
         "All content is Qlik Cloud only - no on-premises Qlik Sense Enterprise content",
     ])
 
@@ -229,6 +229,8 @@ def _build_home(pdf: _QlikPDF):
         ["Oct 2025", "Multivariate Time Series GA in Qlik Predict"],
         ["Dec 2025", "Agentic Qlik Answers private preview"],
         ["Feb 2026", "Qlik Answers agentic GA + MCP Server GA"],
+        ["Mar 2026", "Discovery Agent rolling out; Data Products for Analytics rolling out"],
+        ["Apr 2026", "Qlik Connect 2026 (April 13-15, Orlando)"],
     ], [35, 155])
 
     _links_section(pdf, "Quick Links", [
@@ -258,7 +260,7 @@ def _build_part1(pdf: _QlikPDF):
     _body(pdf, "Qlik Answers evolved from a document-only Q&A chatbot (2024) into a full agentic analytics platform that works across both structured application data and unstructured documents.")
     _body(pdf, "The agentic experience is delivered through Qlik Answers as the unified conversational interface, powered by:")
     _bullet(pdf, "Qlik Analytics Engine - performs governed, context-preserving calculations on structured app data")
-    _bullet(pdf, "Specialized AI Agents - handle multi-step reasoning, planning, and orchestration")
+    _bullet(pdf, "Specialized AI Agents - a 7-agent pipeline: Answers, Semantic Search, Data Analyst, Chart, Dashboard Authoring, Knowledge Base, and Help agents")
     _bullet(pdf, "RAG (Retrieval Augmented Generation) - retrieves relevant passages from curated knowledge bases")
     _bullet(pdf, "LLM Reasoning - synthesizes insights into rich narrative and visual responses with citations")
     pdf.ln(3)
@@ -266,8 +268,9 @@ def _build_part1(pdf: _QlikPDF):
     _add_subsection(pdf, "Key Components")
     _table(pdf, ["Component", "Description"], [
         ["Qlik Answers (Core)", "Unified conversational interface. Structured + unstructured data. Always-on side panel. Citations and reasoning explanations. Embeddable in external apps."],
-        ["Discovery Agent", "Continuously monitors key measures. Surfaces anomalies and shifts. Proactive alerting. Planned rollout shortly after GA."],
-        ["MCP Server", "Exposes Qlik at engine, tool, and agent levels. Third-party AI assistants (Claude, ChatGPT). Secure access to governed data. GA Feb 2026."],
+        ["Discovery Agent", "Continuously monitors key measures using dynamic baselines. Surfaces anomalies and shifts. Proactive alerting. Rolling out March 2026."],
+        ["MCP Server", "Exposes Qlik at engine, tool, and agent levels. 7+ supported AI assistants (Claude, ChatGPT, Copilot, Cursor, Gemini). Secure access to governed data. GA Feb 2026."],
+        ["Help Agent", "Backed by Qlik product documentation. Answers platform navigation and how-to questions within the same chat interface. GA Feb 2026."],
     ], [40, 150])
 
     # 1.3
@@ -500,7 +503,7 @@ def _build_part3(pdf: _QlikPDF):
     _add_section_title(pdf, "3.1 Executive Summary")
     _exec_box(pdf, "Executive Summary - Application Automations & External LLMs", [
         "What: Qlik Application Automations (Qlik Automate) is a no-code workflow automation platform built into Qlik Cloud.",
-        "LLM Connectors: Native OpenAI connector + generic API Key connector (for any LLM) + 8 native analytic connections.",
+        "LLM Connectors: Native OpenAI connector + generic API Key connector (for any LLM) + 9+ native analytic connections (incl. Google AI Gemini added July 2025).",
         "Dynamic Updates: Analytic connections in chart expressions respond to user selections in real-time.",
         "Embedding: Two patterns - button-triggered automations (workflow) and analytic connection chart expressions (inline AI).",
         "Fallback Strategy: When Qlik Answers is insufficient, external LLMs provide free-form narratives, sentiment analysis, and custom reasoning.",
@@ -511,7 +514,7 @@ def _build_part3(pdf: _QlikPDF):
     _body(pdf, "Qlik Application Automations are a no-code workflow automation platform (iPaaS) built into Qlik Cloud. Users build automated workflows between Qlik Cloud and external SaaS applications without writing code.")
     _bullet(pdf, "Visual drag-and-drop builder with data and logic blocks")
     _bullet(pdf, "On-demand triggers (manual or from Qlik Sense buttons)")
-    _bullet(pdf, "Webhook triggers from external events")
+    _bullet(pdf, "Webhook triggers from external events (up to 4 hours runtime as of March 2026)")
     _bullet(pdf, "Scheduled automations at specific times")
     _bullet(pdf, "Pre-built connectors: Salesforce, Teams, Slack, GitHub, ServiceNow, OpenAI, Hugging Face, etc.")
     pdf.ln(3)
@@ -541,6 +544,7 @@ def _build_part3(pdf: _QlikPDF):
         ["Cohere (Amazon Bedrock)", "Cohere models", "AWS credentials"],
         ["Meta (Amazon Bedrock)", "Llama models", "AWS credentials"],
         ["Hugging Face", "Open-source models", "HF API key"],
+        ["Google AI - Gemini", "Gemini models (added Jul 2025)", "Google AI Studio API key"],
     ], [60, 65, 65])
 
     # 3.4
@@ -591,8 +595,8 @@ def _build_part4(pdf: _QlikPDF):
     _add_section_title(pdf, "4.1 Executive Summary")
     _exec_box(pdf, "Executive Summary - Qlik Cloud AI/ML Ecosystem", [
         "Platform: Qlik's AI strategy is branded under Qlik Staige - spanning data integration, analytics, and AI.",
-        "GA Features (2025-2026): Qlik Answers, Qlik Predict, MCP Server, 8 LLM connectors, Automations, Augmented Analytics.",
-        "Upcoming: Discovery Agent, Data Products for Analytics, expanded MCP support, agentic pipeline/quality/stewardship agents.",
+        "GA Features (2025-2026): Qlik Answers, Qlik Predict, MCP Server, 9+ LLM connectors (incl. Google AI Gemini), Automations, Augmented Analytics, Bias Detection.",
+        "Rolling Out (Mar 2026): Discovery Agent, Data Products for Analytics. Roadmap 2026: Data Pipeline Agent, Data Quality Agent, Data Stewardship Agent.",
         "Key Differentiator: AI grounded in the Qlik Associative Engine - governed calculations, not hallucinated responses.",
         "Cloud Only: All features are Qlik Cloud (SaaS) - not available in Qlik Sense Enterprise on Windows.",
     ])
@@ -604,7 +608,7 @@ def _build_part4(pdf: _QlikPDF):
         ["Qlik Predict (AutoML)", "GA", "No-code ML: classification, regression, time series"],
         ["Multivariate Time Series", "GA (Oct 2025)", "GPU deep learning: DeepAR, TSMixer, TiDE"],
         ["Qlik MCP Server", "GA (Feb 2026)", "Third-party AI assistants access governed Qlik data"],
-        ["Analytic Connections", "GA", "8 native LLM connectors for chart expressions"],
+        ["Analytic Connections", "GA", "9+ native LLM connectors incl. Google AI Gemini (Jul 2025)"],
         ["Application Automations", "GA", "No-code workflows with OpenAI + API Key connectors"],
         ["Insight Advisor", "GA (being replaced)", "NL search + chat, full business logic"],
         ["AI-Generated Narratives", "GA", "Auto-generated NL summaries of charts"],
@@ -618,13 +622,16 @@ def _build_part4(pdf: _QlikPDF):
         ["AI Script Generation", "GA", "NL to Qlik load scripts"],
         ["Table Recipe", "GA", "No-code data preparation (60+ functions)"],
         ["Qlik Open Lakehouse", "GA (Oct 2025)", "Iceberg-powered lakehouse on AWS"],
+        ["Responsible AI / Bias Detection", "GA (Feb 2026)", "Bias signals (imbalanced groups, proxy features) surfaced during model training in Qlik Predict"],
+        ["Data Products for Analytics", "Rolling out (Feb-Mar 2026)", "Curated governed datasets with Trust Scores and quality indicators in Qlik apps"],
+        ["Discovery Agent", "Rolling out (Mar 2026)", "Continuous anomaly monitoring via dynamic baselines; proactive alerts to user feeds"],
     ], [50, 35, 105])
 
     # 4.3
     _add_section_title(pdf, "4.3 Planned / Upcoming Features")
     _table(pdf, ["Feature", "Status", "Description"], [
-        ["Discovery Agent", "Rolling out post-GA", "Continuous anomaly monitoring and proactive alerting"],
-        ["Data Products for Analytics", "Rolling out post-GA", "Curated governed datasets with quality signals"],
+        ["Discovery Agent", "Rolling out (Mar 2026)", "Continuous anomaly monitoring via dynamic baselines; proactive alerts to user feeds"],
+        ["Data Products for Analytics", "Rolling out (Feb-Mar 2026)", "Curated governed datasets with Trust Scores and quality indicators surfaced in Qlik apps"],
         ["Productivity Agents", "In development", "Contextual help and developer support across Qlik Cloud"],
         ["Expanded MCP Support", "Planned 2026", "Additional AI tools and assistants"],
         ["Agentic Data Pipeline Agents", "Planned", "AI agents for data integration and transformation"],
@@ -641,6 +648,7 @@ def _build_part4(pdf: _QlikPDF):
         ["Gartner MQ: Analytics & BI", "Leader for 15th year (2025)"],
         ["Gartner MQ: Data Quality", "Leader for 6th time (2025)"],
         ["Qlik AI Specialist Certification", "Covers AI concepts, Qlik Predict, GenAI assistants"],
+        ["Qlik Connect 2026", "April 13-15, Orlando. Agentic AI keynote program; further product announcements expected."],
     ], [60, 130])
 
     # 4.4

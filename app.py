@@ -357,7 +357,7 @@ if section == "Home":
         "Covers <b>Qlik Answers</b> (agentic analytics with structured + unstructured data) — GA Feb 2026",
         "Documents <b>Qlik Predict</b> (AutoML) with HR-specific use cases for turnover, promotions, and lateral moves",
         "Explains <b>Application Automations</b> for integrating external LLMs (OpenAI, Claude, etc.) into Qlik apps",
-        "Maps the full <b>Qlik Cloud AI/ML ecosystem</b> including planned features like Discovery Agent and MCP Server",
+        "Maps the full <b>Qlik Cloud AI/ML ecosystem</b> including Discovery Agent (rolling out March 2026) and MCP Server (GA Feb 2026)",
         "All content is <b>Qlik Cloud only</b> — no on-premises Qlik Sense Enterprise content",
     ])
 
@@ -383,6 +383,8 @@ if section == "Home":
         | Oct 2025 | Multivariate Time Series GA in Qlik Predict |
         | Dec 2025 | Agentic Qlik Answers private preview |
         | Feb 2026 | Qlik Answers agentic GA + MCP Server GA |
+        | Mar 2026 | Discovery Agent rolling out; Data Products for Analytics rolling out |
+        | Apr 2026 | Qlik Connect 2026 (April 13–15, Orlando) |
         """)
 
     section_divider()
@@ -463,7 +465,7 @@ elif section == "Part 1: Qlik Answers (Structured Data)":
         powered by:
 
         - **Qlik Analytics Engine** — performs governed, context-preserving calculations on structured app data
-        - **Specialized AI Agents** — handle multi-step reasoning, planning, and orchestration
+        - **Specialized AI Agents** — a 7-agent pipeline: Answers, Semantic Search, Data Analyst, Chart, Dashboard Authoring, Knowledge Base, and Help agents
         - **RAG (Retrieval Augmented Generation)** — retrieves relevant passages from curated knowledge bases
         - **LLM Reasoning** — synthesizes insights into rich narrative and visual responses with citations
         """)
@@ -486,14 +488,31 @@ elif section == "Part 1: Qlik Answers (Structured Data)":
             - Continuously monitors key measures
             - Surfaces anomalies and shifts
             - Proactive alerting
-            - Planned rollout shortly after GA
+            - Rolling out March 2026
             """)
         with col3:
             st.markdown("""
             #### MCP Server
             - Exposes Qlik at engine, tool, and agent levels
-            - Third-party AI assistants (Claude, ChatGPT)
+            - 7+ supported AI assistants (Claude, ChatGPT, Copilot, Cursor, Gemini...)
             - Secure access to governed data
+            - Generally available Feb 2026
+            """)
+
+        col4, col5 = st.columns(2)
+        with col4:
+            st.markdown("""
+            #### Help Agent
+            - Backed by Qlik product documentation
+            - Platform navigation and "how to" guidance
+            - Answers questions within the same chat interface
+            - Generally available Feb 2026
+            """)
+        with col5:
+            st.markdown("""
+            #### qlik-embed Integration
+            - `ai/agentic-assistant` UI component
+            - Embeds full agentic Qlik Answers in external apps
             - Generally available Feb 2026
             """)
 
@@ -1007,6 +1026,8 @@ elif section == "Part 2: Qlik Predict (ML)":
         - Available in Premium and Enterprise tiers
         """)
 
+        st.info("**New (Feb 2026): Responsible AI / Bias Detection** — Model training now surfaces bias signals including imbalanced feature groups and proxy features. Helps detect and mitigate bias before deployment. Not available in Qlik Cloud Government.")
+
     # ----- 2.3 ML Algorithms -----
     elif subsection == "2.3 ML Algorithms & Models":
         st.header("ML Algorithms & Models")
@@ -1343,7 +1364,7 @@ elif section == "Part 3: Application Automations & LLM":
     if subsection == "3.1 Executive Summary":
         exec_summary("Executive Summary — Application Automations & External LLMs", [
             "<b>What:</b> Qlik Application Automations (Qlik Automate) is a <b>no-code workflow automation platform</b> built into Qlik Cloud, enabling integration with external LLMs via REST API calls.",
-            "<b>LLM Connectors:</b> Native OpenAI connector + generic API Key connector (for Claude, Cohere, custom endpoints) + <b>8 native analytic connections</b> (OpenAI, Azure OpenAI, Anthropic via Bedrock, Hugging Face, etc.).",
+            "<b>LLM Connectors:</b> Native OpenAI connector + generic API Key connector (for Claude, Cohere, custom endpoints) + <b>9+ native analytic connections</b> (OpenAI, Azure OpenAI, Anthropic via Bedrock, Google AI Gemini, Hugging Face, etc.).",
             "<b>Dynamic Updates:</b> Analytic connections in chart expressions respond to user selections in real-time — changing a selection triggers a new LLM call and updates the visualization.",
             "<b>Embedding:</b> Two patterns — <b>button-triggered automations</b> (workflow) and <b>analytic connection chart expressions</b> (inline real-time AI).",
             "<b>Fallback Strategy:</b> When Qlik Answers' structured data capabilities are insufficient, external LLMs provide free-form narratives, sentiment analysis, code generation, and custom domain reasoning directly within Qlik apps.",
@@ -1365,7 +1386,7 @@ elif section == "Part 3: Application Automations & LLM":
             ### Core Capabilities
             - **Visual drag-and-drop builder** — blocks for data processing and logic control
             - **On-demand triggers** — manual or from Qlik Sense buttons
-            - **Webhook triggers** — activate from external events
+            - **Webhook triggers** — activate from external events (up to 4 hours runtime as of March 2026)
             - **Scheduled automations** — execute at specific times
             - **Pre-built connectors** — Salesforce, Teams, Slack, GitHub, ServiceNow, OpenAI, Hugging Face, etc.
             """)
@@ -1490,11 +1511,12 @@ elif section == "Part 3: Application Automations & LLM":
             | **OpenAI** | GPT models | API key |
             | **Azure OpenAI** | GPT via Azure | Azure API key + endpoint |
             | **Anthropic (Amazon Bedrock)** | Claude models | AWS Access Key + Secret |
-            | **Amazon Bedrock - Converse API** | All Bedrock models | AWS credentials |
+            | **Amazon Bedrock - Converse API** | All Bedrock models (recommended) | AWS credentials |
             | **Amazon Titan (Bedrock)** | Titan models | AWS credentials |
             | **Cohere (Amazon Bedrock)** | Cohere models | AWS credentials |
             | **Meta (Amazon Bedrock)** | Llama models | AWS credentials |
             | **Hugging Face** | Open-source models | HF API key |
+            | **Google AI - Gemini** | Gemini models | Google AI Studio API key |
 
             **Chart Expression Example:**
             ```
@@ -1702,7 +1724,7 @@ elif section == "Part 4: Qlik Cloud AI/ML Ecosystem":
         exec_summary("Executive Summary — Qlik Cloud AI/ML Ecosystem", [
             "<b>Platform:</b> Qlik's AI strategy is branded under <b>Qlik Staige</b> — a unified platform spanning data integration, analytics, and AI across the data lifecycle.",
             "<b>GA Features (2025-2026):</b> Qlik Answers (agentic analytics), Qlik Predict (AutoML), MCP Server, Analytic Connections (8 LLM connectors), Application Automations, Augmented Analytics (Insight Advisor or Qlik Answers).",
-            "<b>Upcoming:</b> Discovery Agent (anomaly detection), Data Products for Analytics, expanded MCP support for additional AI tools, agentic extensions across data pipelines and data quality.",
+            "<b>Rolling Out (Mar 2026):</b> Discovery Agent (continuous anomaly detection), Data Products for Analytics (curated governed datasets). Roadmap 2026: Data Pipeline Agent, Data Quality Agent, Data Stewardship Agent, expanded MCP tools.",
             "<b>Key Differentiator:</b> Qlik's AI capabilities are grounded in the <b>Qlik Associative Engine</b> — ensuring governed, context-preserving calculations rather than hallucinated responses.",
             "<b>Cloud Only:</b> All features described are Qlik Cloud (SaaS) — not available in Qlik Sense Enterprise on Windows.",
         ])
@@ -1735,7 +1757,7 @@ elif section == "Part 4: Qlik Cloud AI/ML Ecosystem":
             {
                 "name": "Analytic Connections (LLM Connectors)",
                 "status": "GA",
-                "desc": "8 native connectors for OpenAI, Azure OpenAI, Anthropic (Bedrock), Amazon Bedrock Converse, Titan, Cohere, Meta Llama, and Hugging Face. Used in load scripts and chart expressions.",
+                "desc": "9+ native connectors for OpenAI, Azure OpenAI, Anthropic (Bedrock), Amazon Bedrock Converse, Titan, Cohere, Meta Llama, Hugging Face, and Google AI Gemini (added July 2025). Used in load scripts and chart expressions.",
             },
             {
                 "name": "Application Automations (Qlik Automate)",
@@ -1771,6 +1793,21 @@ elif section == "Part 4: Qlik Cloud AI/ML Ecosystem":
                 "name": "Write Table (Writeback)",
                 "status": "GA (Oct 2025)",
                 "desc": "Native writeback capability allowing users to edit data directly in Qlik Sense apps. Combined with Qlik Predict for actionable forecasting workflows.",
+            },
+            {
+                "name": "Responsible AI / Bias Detection (Qlik Predict)",
+                "status": "GA (Feb 2026)",
+                "desc": "Model training surfaces bias signals including imbalanced feature groups and proxy features. Helps data scientists detect and mitigate bias before model deployment. Not available in Qlik Cloud Government.",
+            },
+            {
+                "name": "Data Products for Analytics",
+                "status": "Rolling out (Feb–Mar 2026)",
+                "desc": "Curated, governed datasets with stewardship and quality signals. Trust Scores and quality indicators surface directly in Qlik apps. Supports both human and AI analysis. Available across Qlik Talend Cloud Premium, Analytics Premium/Enterprise, and Sense Enterprise SaaS.",
+            },
+            {
+                "name": "Discovery Agent",
+                "status": "Rolling out (Mar 2026)",
+                "desc": "Continuously scans Qlik Cloud applications for anomalies without predefined rules. Uses dynamic forecasting baselines to detect meaningful changes. Delivers insights proactively to user feeds. Requires cross-region data processing opt-in.",
             },
         ]
 
@@ -1855,8 +1892,8 @@ elif section == "Part 4: Qlik Cloud AI/ML Ecosystem":
 
         | Feature | Status | Description |
         |---------|--------|-------------|
-        | **Discovery Agent** | Rolling out post-GA | Continuously monitors key measures and surfaces meaningful anomalies and shifts. Proactive alerting before issues escalate. |
-        | **Data Products for Analytics** | Rolling out post-GA | Curated, governed datasets with stewardship and quality signals. Foundation for both human and AI analysis. |
+        | **Discovery Agent** | Rolling out (March 2026) | Continuously monitors key measures and surfaces meaningful anomalies and shifts using dynamic baselines. Proactive alerting before issues escalate. |
+        | **Data Products for Analytics** | Rolling out (Feb–March 2026) | Curated, governed datasets with Trust Scores, stewardship, and quality indicators surfaced directly in Qlik apps. Foundation for both human and AI analysis. |
         | **Productivity Agents** | In development | Embedded across all Qlik Cloud workflows — contextual help, developer support, and analytical assistance. |
         | **Expanded MCP Support** | Planned 2026 | Support for additional AI tools and assistants beyond Claude and ChatGPT throughout 2026. |
         | **Agentic Data Pipeline Agents** | Planned | AI agents for automating data integration, transformation, and quality workflows. |
@@ -1888,8 +1925,9 @@ elif section == "Part 4: Qlik Cloud AI/ML Ecosystem":
         | Write Table (Writeback) | GA | October 2025 |
         | Qlik Answers (Agentic) | GA | February 2026 |
         | Qlik MCP Server | GA | February 2026 |
-        | Discovery Agent | Planned | Post-Feb 2026 GA |
-        | Data Products for Analytics | Planned | Post-Feb 2026 GA |
+        | Responsible AI / Bias Detection | GA | February 2026 |
+        | Discovery Agent | Rolling out | March 2026 |
+        | Data Products for Analytics | Rolling out | Feb–March 2026 |
         | Productivity Agents | Planned | In development |
         """)
 
@@ -1918,6 +1956,7 @@ elif section == "Part 4: Qlik Cloud AI/ML Ecosystem":
         | **Qlik AI Specialist Certification** | New certification covering AI concepts, Qlik Predict, GenAI assistants |
         | **Kyndi Acquisition (2024)** | NLP, search, and generative AI capabilities |
         | **Upsolver Acquisition (2025)** | Real-time data processing capabilities |
+        | **Qlik Connect 2026** | April 13–15, Orlando. Keynote program focused on agentic AI; further product announcements expected. |
         """)
 
         st.markdown("""
@@ -1953,7 +1992,7 @@ elif section == "Part 4: Qlik Cloud AI/ML Ecosystem":
 
         subgraph "Extensibility"
             MCP["MCP Server"]
-            AC["Analytic Connections - 8 LLM Connectors"]
+            AC["Analytic Connections - 9+ LLM Connectors"]
             AA["Application Automations"]
         end
 
